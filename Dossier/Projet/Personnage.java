@@ -1,7 +1,7 @@
 public class Personnage {
 
 	private String Type_de_sport; // collectif ou individuel
-	private String Type_Age;   // moins de 25 entre 25 et 45 plus de 45
+	private String Type_Age;   // moins de 25 entre 25 et 40 plus de 40
 	private String Nationalité; // pays
 	private String Genre; // h ou f
 	private String Couleur_Cheveux; // clair foncé
