@@ -4,7 +4,7 @@ public class Personnage {
 	private String Type_Age;   // moins de 25 entre 25 et 45 plus de 45
 	private String Nationalité; // pays
 	private String Genre; // h ou f
-	private String Couleur_Cheveux; // brun blond rou
+	private String Couleur_Cheveux; // brun blond roux
 	private String Pilosité; // barbe imberbe 
 	private String Cheveux; //chauve court long
 
