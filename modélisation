@@ -1,0 +1,17 @@
+Classe Jeu : 
++choisirPersonnage()
++verifieCondition(Condition):bool 
++veriePersonnage(Personnage):bool //dit si le joueur a deviné le bon personnage
+
+Classe Condition : 
+<<construct>> condition(Genre)
+<<construct>> condition(Sport)
+ 
+Classe Personnage() :
++estDuGenre(Genre):bool
++apourSport(Sport):bool
+
+
+
+
+
