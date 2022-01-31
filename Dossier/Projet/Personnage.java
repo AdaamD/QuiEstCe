@@ -1,13 +1,12 @@
-
 public class Personnage {
 
-	private String Type_de_sport;
-	private String Type_Age;  //age
-	private String Nationalité;
-	private String Type_équipement;
-	private String Sexe;
-	private String Couleur_Cheveux;
-	private String Pilosité;
+	private String Type_de_sport; // collectif ou individuel
+	private String Type_Age;   // moins de 25 entre 25 et 45 plus de 45
+	private String Nationalité; // pays
+	private String Genre; // h ou f
+	private String Couleur_Cheveux; // brun blond rou
+	private String Pilosité; // barbe imberbe 
+	private String Cheveux; //chauve court long
 
 	//Constructeurs
 
@@ -20,7 +19,6 @@ public class Personnage {
 		this.Couleur_Cheveux=Couleur_Cheveux;
 		this.Pilosité=Pilosité ;
 	}
-
-
-
 }
+
+Personnage Mbappe = new Personnage ( "collectif" , )
