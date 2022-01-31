@@ -10,13 +10,13 @@ public class Personnage {
 
 	//Constructeurs
 
-	public Personnage( String Type_de_sport, String Type_Age, String Nationalité, String Type_équipement, String Sexe, String Couleur_Cheveux, String Pilosité ){
+	public Personnage( String Type_de_sport, String Type_Age, String Nationalité, String Cheveux, String Sexe, String Couleur_Cheveux, String Pilosité ){
 		this.Type_de_sport=Type_de_sport;
 		this.Type_Age=Type_Age;
 		this.Nationalité=Nationalité;
-		this.Type_équipement=Type_équipement;
-		this.Sexe=Sexe;
 		this.Couleur_Cheveux=Couleur_Cheveux;
+		this.Genre=Genre;
+		this.Cheveux=Cheveux;
 		this.Pilosité=Pilosité ;
 	}
 }
