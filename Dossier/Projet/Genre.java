@@ -1,3 +1,3 @@
-public Enum Genre {
+public enum Genre {
     MASCULIN, FEMININ; 
 }
