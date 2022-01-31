@@ -1,3 +1,3 @@
-public Enum Sport {
+public enum Sport {
     INDIVIDUEL, COLLECTIF; 
 }
