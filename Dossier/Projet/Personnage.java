@@ -21,4 +21,4 @@ public class Personnage {
 	}
 }
 
-Personnage Mbappe = new Personnage ( "collectif" , )
+Personnage Mbappe = new Personnage ( typesport.collectif , )
