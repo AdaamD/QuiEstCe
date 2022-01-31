@@ -2,22 +2,22 @@ public class Personnage {
 
 	private String Sport; // collectif ou individuel
 	private String Type_Age;   // moins de 25 entre 25 et 40 plus de 40
-	private String Nationalité; // pays
+	private String Nationalite; // pays
 	private String Genre; // h ou f
 	private String Couleur_Cheveux; // clair foncé
-	private String Pilosité; // barbe imberbe 
+	private String Pilosite; // barbe imberbe 
 	private String Cheveux; //chauve court long
 
 	//Constructeurs
 
-	public Personnage( String Type_de_sport, String Type_Age, String Nationalité, String Cheveux, String Sexe, String Couleur_Cheveux, String Pilosité ){
-		this.Type_de_sport=Type_de_sport;
+	public Personnage( String Sport, String Type_Age, String Nationalite, String Cheveux, String Genre, String Couleur_Cheveux, String Pilosite ){
+		this.Sport=Type_de_sport;
 		this.Type_Age=Type_Age;
-		this.Nationalité=Nationalité;
+		this.Nationalite=Nationalite;
 		this.Couleur_Cheveux=Couleur_Cheveux;
 		this.Genre=Genre;
 		this.Cheveux=Cheveux;
-		this.Pilosité=Pilosité ;
+		this.Pilosite=Pilosite ;
 	}
 }
 
