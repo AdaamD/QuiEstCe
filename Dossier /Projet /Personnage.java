@@ -11,7 +11,7 @@ public class Personnage {
 	//Constructeurs
 
 	public Personnage( String Sport, String TypeAge, String Nationalite, String Cheveux, String Genre, String CouleurCheveux, String Pilosite ){
-		this.Sport=Type_de_sport;
+		this.Sport=Sport;
 		this.TypeAge=TypeAge;
 		this.Nationalite=Nationalite;
 		this.CouleurCheveux=CouleurCheveux;
