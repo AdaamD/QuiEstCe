@@ -1,5 +1,7 @@
+import java.util.function.Function;
+
 class Condtion {
-    private boolean absurde; 
+    /*private boolean absurde; 
     private Genre genre;
     private Nationnalite nationnalite;
     private Sport sport;
@@ -7,7 +9,9 @@ class Condtion {
     private Pilosite pilosite; 
     private CouleurCheuveux couleurCheveux;
     private Cheveux cheveux;
-    private Age age; 
+    private Age age;*/
+    private Function <Personnage,
+
 
     private boolean egauxOuIndefinis(Object o1, Object o2){
         return o1==NULL | o2==NULL | o1==o2; 
@@ -21,6 +25,7 @@ class Condtion {
         this.nationnalite = nationnalite; 
 
     }
+
 
 
 }
