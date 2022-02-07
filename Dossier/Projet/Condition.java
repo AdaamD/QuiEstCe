@@ -1,6 +1,6 @@
 import java.util.function.Function;
 
-class Condtion {
+class Condition {
     /*private boolean absurde; 
     private Genre genre;
     private Nationnalite nationnalite;
@@ -10,21 +10,34 @@ class Condtion {
     private CouleurCheuveux couleurCheveux;
     private Cheveux cheveux;
     private Age age;*/
-    private Function <Personnage,
+    private Function <Personnage, Pair<Personnage,Boolean>> condition = perso -> new Pair<>(perso,true); 
 
 
-    private boolean egauxOuIndefinis(Object o1, Object o2){
-        return o1==NULL | o2==NULL | o1==o2; 
+    private void not(){
+        condition = condition.andThen(pair -> new Pair<>(pair.getLeft(),!pair.getRight()));
+    }
+    private void and (Function <Personnage,Boolean> lambdaCond){
+        condition = condition.andThen(pair -> pair.changeRight(lambdaCond.apply(pair.getLeft())));
+
+
+    }
+    public void ajouterGenre(Genre genre){
+       and(perso -> perso.getGenre().equals(genre));
+        
         
     }
+
+
     public Condition(){}
-    public Condition(genre Genre){
-        this.genre = genre; 
+    private Condition(Function<Personnage,Boolean> lambdaCond){
+        and(lambdaCond);
     }
-    public condition (Nationnalite nationnalite) {
-        this.nationnalite = nationnalite; 
+    public boolean testerCondtion(Personnage personnageChoisi){
+        return condition.apply(personnageChoisi).getRight();
 
     }
+
+
 
 
 
