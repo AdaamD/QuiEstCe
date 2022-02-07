@@ -1,0 +1,14 @@
+classe Question
+
+boolean poserQuestion(Personnage)
+
+Question() //question à laquelle on répond oui sans condition 
+ajouterGenre(Genre)//modifie la condition pour ajouter un critère de Genre
+//ajouterGenre(Genre.MASCULIN)
+ajouterSport(Sport)
+ajouterAge(Age)
+ajouterCheveux(Cheveux)
+ajouterNationnalite(Nationnalite)
+ajouterCouleurCheveux(CouleurCheveux)
+ajouterPilosite(Pilosite)
+ou(Question) //pour faire condition1.ou(condition2)
