@@ -2,14 +2,14 @@ import java.util.function.Function;
 
 class Question {
   
-    private Function <Personnage, Pair<Personnage,Boolean>> condition = perso -> new Pair<>(perso,true); 
+    private Function <Personnage, Boolean> condition = perso -> true ; 
 
     private void and (Function <Personnage,Boolean> lambdaCond){
-        condition = condition.andThen(pair -> pair.changeRight(pair.getRight() & lambdaCond.apply(pair.getLeft())));
+        condition = perso -> condition.apply(perso) && lambdaCond.apply(perso) ;
 
     }
     private void or (Function <Personnage,Boolean> lambdaCond){
-        condition = condition.andThen(pair -> pair.changeRight(pair.getRight() | lambdaCond.apply(pair.getLeft())));
+        condition = perso -> condition.apply(perso) || lambdaCond.apply(perso) ;
 
     }
     
@@ -18,8 +18,8 @@ class Question {
     /*private Question(Function<Personnage,Boolean> lambdaCond){
         and(lambdaCond);
     }*/
-    public boolean poserQuestion(Personnage personnageChoisi){
-        return condition.apply(personnageChoisi).getRight();
+    public boolean surPersonnage (Personnage personnageChoisi){
+        return condition.apply(personnageChoisi);
 
     }
 
@@ -29,22 +29,20 @@ class Question {
     }
 
     public void non(){
-        condition = condition.andThen(pair -> new Pair<>(pair.getLeft(),!pair.getRight()));
+        condition = condition.andThen(b -> !b);
     }
     public void et(Question cond){
-        and(perso -> cond.poserQuestion(perso));    
+        and(perso -> cond.surPersonnage(perso));    
 
     }
     public void ou(Question cond){
-        or(perso -> cond.poserQuestion(perso));
+        
+        or(perso -> cond.surPersonnage(perso));
+        
+        
 
     }
     
-
-    
-
-
-
 
 
 }

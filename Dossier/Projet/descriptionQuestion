@@ -1,6 +1,7 @@
 classe Question
 
-boolean poserQuestion(Personnage)
+boolean surPersonnage(Personnage) //passé en paramètre le personnage choisi par le jeu 
+
 
 Question() //question à laquelle on répond oui sans condition 
 ajouterGenre(Genre)//modifie la condition pour ajouter un critère de Genre
