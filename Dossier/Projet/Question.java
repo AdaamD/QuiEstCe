@@ -27,6 +27,26 @@ class Question {
        and(perso -> perso.getGenre().equals(genre));   
         
     }
+   public void ajouterSport(Sport sport){
+       and(perso -> perso.getSport().equals(sport));   
+        
+    }
+  public void ajouterNationalite(Nationalite nationalite){
+       and(perso -> perso.getNationalite().equals(nationalite));   
+        
+    }
+  public void ajouterCheveux(Cheveux cheveux){
+    and(perso -> perso.getCheveux().equals(cheveux)); 
+  }
+  public void ajouterAge(Age age){
+    and(perso -> perso.getAge().equals(age)); 
+  }
+   public void ajouterPilosite(Pilosite pilosite){
+    and(perso -> perso.getPilosite().equals(pilosite)); 
+  }
+  public void ajouterCouleurCheveux(CouleurCheveux couleur){
+    and(perso -> perso.CouleurCheveux().equals(couleur)); 
+  }
 
     public void non(){
         condition = condition.andThen(b -> !b);
