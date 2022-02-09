@@ -45,7 +45,7 @@ class Question {
     and(perso -> perso.getPilosite().equals(pilosite)); 
   }
   public void ajouterCouleurCheveux(CouleurCheveux couleur){
-    and(perso -> perso.CouleurCheveux().equals(couleur)); 
+    and(perso -> perso.getCouleurCheveux().equals(couleur)); 
   }
 
     public void non(){
