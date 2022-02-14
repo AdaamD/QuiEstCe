@@ -1,15 +1,20 @@
-import java.util.function.Function;
+import java.util.function.*;
 
 class Question {
   
     private Function <Personnage, Boolean> condition = perso -> true ; 
+    private static <T,U,V,W> Function<T,W> bind (Function<T,U> ftu,Function<T,V> ftv, BiFunction<U,V,W> fvw){
+      return (t -> fvw.apply(ftu.apply(t),ftv.apply(t)));
+
+    }
+    
 
     private void and (Function <Personnage,Boolean> lambdaCond){
-        condition = perso -> condition.apply(perso) && lambdaCond.apply(perso) ;
+        condition = bind(condition,lambdaCond,((b1,b2) -> b1 & b2));
 
     }
     private void or (Function <Personnage,Boolean> lambdaCond){
-        condition = perso -> condition.apply(perso) || lambdaCond.apply(perso) ;
+        condition = bind(condition,lambdaCond,((b1,b2) -> b1 || b2));;
 
     }
     
@@ -21,6 +26,9 @@ class Question {
     public boolean surPersonnage (Personnage personnageChoisi){
         return condition.apply(personnageChoisi);
 
+    }
+    public boolean poserQuestion (Personnage personnageChoisi){
+      return surPersonnage(personnageChoisi);
     }
 
     public void ajouterGenre(Genre genre){
@@ -49,7 +57,7 @@ class Question {
   }
 
     public void non(){
-        condition = condition.andThen(b -> !b);
+        condition.andThen(b -> !b);
     }
     public void et(Question cond){
         and(perso -> cond.surPersonnage(perso));    
