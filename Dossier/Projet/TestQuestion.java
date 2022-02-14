@@ -1,4 +1,4 @@
-public class testQuestion {
+public class TestQuestion {
     public static void main (String [] args){
         Personnage  Mbappe =  new  Personnage  (  Sport.COLLECTIF  ,  
             Age.MOINS_VINGT_CINQ ,  
