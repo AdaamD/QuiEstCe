@@ -6,7 +6,8 @@ public  class  Personnage  {
 	private final Genre  genre  ; // h ou f 
 	private  final CouleurCheveux  couleurCheveux ;  //  clair foncé 
 	private  final Pilosite  pilosite ;  //  barbe imberbe  
-	private  final Cheveux  cheveux ;  // chauve court long 
+	private  final Cheveux  cheveux ;// chauve court long 
+	private  String nom; //final en pratique 
 
 	// Constructeurs 
 
@@ -18,6 +19,10 @@ public  class  Personnage  {
 		this.genre = genre ; 
 		this.cheveux = cheveux ; 
 		this.pilosite = pilosite  ; 
+	}
+	
+	public void setNom(String nom){
+		this.nom = nom; 
 	}
 	public Cheveux getCheveux() {
 		return cheveux;
