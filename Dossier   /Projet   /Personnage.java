@@ -45,7 +45,6 @@ public  class  Personnage  {
  
 
 
-
 /*Personnage  Biles_Simone  =  new  Personnage  (  Sport . INDIVIDUEL  ,  Age . MOINS_VINGT_CINQ ,  Nationalite . USA ,  CouleurCheveux . FONCE ,  Genre . FEMININ ,  Cheveux . LONG ,  Pilosite . IMBERBE  ) ; 
 Personnage  Djokovic_Novak  =  new  Personnage  (  Sport . INDIVIDUEL  ,  Age . ENTRE_VINGT_CINQ_ET_QUARANTE ,  Nationalite . Serbe ,  CouleurCheveux . FONCE ,  Genre . MASCULIN ,  Cheveux . COURT ,  Pilosite . BARBE  ) ; 
 Personnage  Florsch_Sofia  =  new  Personnage  (  Sport . INDIVIDUEL  ,  Age . MOINS_VINGT_CINQ ,  Nationalite . Allemande ,  CouleurCheveux . CLAIR ,  Genre . FEMININ ,  Cheveux . LONG ,  Pilosite . IMBERBE  ) ; 
