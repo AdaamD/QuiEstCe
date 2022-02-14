@@ -61,37 +61,38 @@ public class Main
 		liste_perso.add(Williams_Serena);       
 		liste_perso.add(Yoka_Tony);
 
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-        // PREND UN PERSO AU HASARD
+		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
+
+// PREND UN PERSO AU HASARD
 		int i= Choixalea();
 		Personnage perso = liste_perso.get(i);
 		System.out.println(liste_perso.get(i));
 
 
-
-        // Définissez le nom de l'interface graphique 
+// Définition le nom de l'interface graphique 
 		JFrame frame = new JFrame("Qui est ce ??");
 
 
-		//Creéer un panel 
+		//Créer un panel 
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel();
 		JPanel panel4 = new JPanel();
 
-            // Définir le menu principal
-		JMenuBar menu = new JMenuBar();
-		JMenu file = new JMenu("Fichier");
-		JMenu edit = new JMenu("Edition");
-		JMenu help = new JMenu("Aide");
+//Menu du haut 
+            // Définir le menu principal					
+		JMenuBar menu = new JMenuBar();						
+		JMenu file = new JMenu("Fichier");					
+		JMenu edit = new JMenu("Edition");					
+		JMenu help = new JMenu("Aide");	
 
-
-        // Définir le sous-menu pour Fichier
+// Définir le sous-menu pour Fichier
 		JMenuItem newf = new JMenuItem("Nouveau");
 		JMenuItem open = new JMenuItem("Ouvrir");
 		JMenuItem save = new JMenuItem("Enregistrer");
 		JMenuItem quit = new JMenuItem("Quitter");
-
 
 		frame.add(menu);
 		file.add(newf);
@@ -104,13 +105,9 @@ public class Main
 		menu.add(help);
 
 
+//Creation des ICON de personnages 
 
-
-
-         // Définir les images
-        //ImageIcon biles= new ImageIcon(new ImageIcon("img/biles.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 		ImageIcon djokovic= new ImageIcon(new ImageIcon("img/djokovic.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-        //ImageIcon florsch= new ImageIcon(new ImageIcon("img/florsch.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 		ImageIcon hamilton= new ImageIcon(new ImageIcon("img/hamilton.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 		ImageIcon karabatic= new ImageIcon(new ImageIcon("img/karabatic.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 		ImageIcon laffont= new ImageIcon(new ImageIcon("img/laffont.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
@@ -128,10 +125,8 @@ public class Main
 		ImageIcon zidane= new ImageIcon(new ImageIcon("img/zidane.jpg").getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 
 
-        //définir les boutons 
-        //JButton biles1 = new JButton(biles);
+//Creation des BOUTONS de personnages  
 		JButton djokovic1 = new JButton(djokovic);
-        //JButton florsch1 = new JButton(florsch);
 		JButton hamilton1 = new JButton(hamilton);
 		JButton karabatic1 = new JButton(karabatic);
 		JButton laffont1 = new JButton(laffont);
@@ -151,7 +146,7 @@ public class Main
 
 
 
-         // Ajouter les boutons au frame
+// Ajout des boutons au frame
 		panel1.add(djokovic1); 
 		panel1.add(hamilton1);
 		panel1.add(karabatic1);
@@ -170,36 +165,53 @@ public class Main
 		panel4.add(zidane1);
 
 
-
-		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
-
-        // Ajouter label et panel au frame
-        //nom_Interface.setLayout(new GridLayout(10, 1));
+// Ajout des label & panel au frame
 		frame.add(label);
-
-
-		frame.setLayout(new GridLayout(7,1));
-
+		frame.setLayout(new GridLayout(9,1));
 		frame.add(panel1);
 		frame.add(panel2);
 		frame.add(panel3);
 		frame.add(panel4);
 
-		JPanel question = new JPanel();
 
  //Creation de liste des déroulantes 
+		JPanel question = new JPanel();
+	//Sport 		
+		Sport[] sport= { Sport.INDIVIDUEL , Sport.COLLECTIF};
+	//AGE	
+		Age [] age= {Age.MOINS_VINGT_CINQ , Age.ENTRE_VINGT_CINQ_ET_QUARANTE , Age.PLUS_DE_QUARANTE};
+
+	//Nationalite
 		Nationalite[] nationalite = {Nationalite.ANGLAISE, Nationalite.ALLEMANDE, Nationalite.FINLANDAISE,
 		Nationalite.USA, Nationalite.SERBE , Nationalite.ARGENTINE, Nationalite.IRLANDAISE,Nationalite.FRANCAISE };
+		
+	//GENRE
+		Genre[] genre= {Genre.MASCULIN , Genre.FEMININ};
+	//COULEUR CHEVEUX
+		CouleurCheveux[]couleurcheveux= {CouleurCheveux.FONCE , CouleurCheveux.CLAIR};
+	//PILOISTE 
+		Pilosite[]pilosite={Pilosite.IMBERBE , Pilosite.BARBE};
+	//CHEVEUX 
+		Cheveux [] cheveux= {Cheveux.COURT, Cheveux.LONG , Cheveux.CHAUVE};
+
+
 		JComboBox ld1 = new JComboBox(nationalite);
+		JComboBox ld2= new JComboBox(sport);
+		JComboBox ld3 = new JComboBox(age);
+		JComboBox ld4 = new JComboBox(genre);
+		JComboBox ld5 = new JComboBox(couleurcheveux);
+		JComboBox ld6 = new JComboBox(pilosite);
+		JComboBox ld7 = new JComboBox(cheveux);
 
-        Sport[] sport= { Sport.INDIVIDUEL , Sport.COLLECTIF};
-        JComboBox ld2= new JComboBox(sport);
 
-	
+
+
 
 
 		JLabel label1 = new JLabel("Bien joué c'est correct ", JLabel.CENTER);
 		JLabel label2 = new JLabel("Pas du tout, c'est faut retente !! ", JLabel.CENTER);
+
+JPanel reponse =new JPanel ();
 
 
 //Fonction recherche nationalite
@@ -210,17 +222,17 @@ public class Main
 				if(ld1.getSelectedItem()== perso.getNationalite())
 				{   
 					System.out.println("ok");
-					question.add(label1);
+					reponse.add(label1);
 					label1.setVisible(true);
 					label2.setVisible(false);
-					frame.setLayout(new GridLayout(7,1));
+					
 				} 
 				else {
 					System.out.println("Nooon");
-					question.add(label2);
+					reponse.add(label2);
 					label2.setVisible(true);
 					label1.setVisible(false);
-					frame.setLayout(new GridLayout(7,1));}
+					}
 				} 
 			});
 
@@ -232,26 +244,140 @@ public class Main
 				if(ld2.getSelectedItem()== perso.getSport())
 				{   
 					System.out.println("ok");
-					question.add(label1);
+					reponse.add(label1);
 					label1.setVisible(true);
 					label2.setVisible(false);
-					frame.setLayout(new GridLayout(7,1));
+					
 				} 
 				else {
 					System.out.println("Nooon");
-					question.add(label2);
+					reponse.add(label2);
 					label2.setVisible(true);
 					label1.setVisible(false);
-					frame.setLayout(new GridLayout(7,1));}
+					}
 				} 
 			});
-	
 
+//fonction recherche Age
+		ld3.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if(ld3.getSelectedItem()== perso.getAge())
+				{   
+					System.out.println("ok");
+					reponse.add(label1);
+					label1.setVisible(true);
+					label2.setVisible(false);
+					
+				} 
+				else {
+					System.out.println("Nooon");
+					reponse.add(label2);
+					label2.setVisible(true);
+					label1.setVisible(false);
+					;}
+				} 
+			});
+
+//fonction recherche Genre
+		ld4.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
+				if(ld4.getSelectedItem()== perso.getGenre())
+				{   
+					System.out.println("ok");
+					reponse.add(label1);
+					label1.setVisible(true);
+					label2.setVisible(false);
+					
+				} 
+				else {
+					System.out.println("Nooon");
+					reponse.add(label2);
+					label2.setVisible(true);
+					label1.setVisible(false);
+					}
+				} 
+			});
+
+//fonction recherche Couleur cheveux 
+		ld5.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if(ld5.getSelectedItem()== perso.getCouleurCheveux())
+				{   
+					System.out.println("ok");
+					reponse.add(label1);
+					label1.setVisible(true);
+					label2.setVisible(false);
+					
+				} 
+				else {
+					System.out.println("Nooon");
+					reponse.add(label2);
+					label2.setVisible(true);
+					label1.setVisible(false);
+					}
+				} 
+			});
+
+//fonction recherche Pilosite
+		ld6.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if(ld6.getSelectedItem()== perso.getPilosite())
+				{   
+					System.out.println("ok");
+					reponse.add(label1);
+					label1.setVisible(true);
+					label2.setVisible(false);
+					
+				} 
+				else {
+					System.out.println("Nooon");
+					reponse.add(label2);
+					label2.setVisible(true);
+					label1.setVisible(false);
+					}
+				} 
+			});
+
+//fonction recherche Cheveux
+		ld7.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if(ld7.getSelectedItem()== perso.getCheveux())
+				{   
+					System.out.println("ok");
+					reponse.add(label1);
+					label1.setVisible(true);
+					label2.setVisible(false);
+					
+				} 
+				else {
+					System.out.println("Nooon");
+					reponse.add(label2);
+					label2.setVisible(true);
+					label1.setVisible(false);
+					}
+				} 
+			});
+
+		
+		frame.add(question);
+		frame.add(reponse);
 
 		question.add(ld1);
-		frame.add(question);
-
 		question.add(ld2);
+		question.add(ld3);
+		question.add(ld4);
+		question.add(ld5);
+		question.add(ld6);
+		question.add(ld7);
 
 
 
