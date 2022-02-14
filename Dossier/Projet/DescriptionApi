@@ -1,0 +1,21 @@
+CouleurCheveux : CHAUVE, COURT, LONG
+Nationalite : ANGLAISE, ALLEMANDE, FINLANDAISE, USA, SERBE, FRANCAISE, ARGENTINE, IRLANDAISE
+Genre : MASCULIN, FEMININ
+Pilosite : IMBERBE, BARBE
+Sport : INDIVIDUEL, COLLECTIF
+Age : MOINS_VINGT_CINQ, ENTRE_VINGT_CINQ_ET_QUARANTE, PLUS_DE_QUARANTE
+
+
+classe Question :
+boolean surPersonnage(Personnage) //passé en paramètre le personnage choisi par le jeu 
+Question() //question à laquelle on répond oui sans condition 
+ajouterGenre(Genre)//modifie la condition pour ajouter un critère de Genre
+//ajouterGenre(Genre.MASCULIN)
+ajouterSport(Sport)
+ajouterAge(Age)
+ajouterCheveux(Cheveux)
+ajouterNationnalite(Nationnalite)
+ajouterCouleurCheveux(CouleurCheveux)
+ajouterPilosite(Pilosite)
+ou(Question) //pour faire condition1.ou(condition2)
+
