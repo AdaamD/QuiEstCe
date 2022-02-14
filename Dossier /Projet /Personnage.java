@@ -10,7 +10,7 @@ public  class  Personnage  {
 
 	// Constructeurs 
 
-	public  Personnage ( Sport sport , Age age , Nationalite  nationalite , Cheveux  cheveux , Genre  genre , Pilosite  pilosite , CouleurCheveux  couleurCheveux ){ 
+	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite ){ 
 		this.sport = sport ; 
 		this.age = age ; 
 		this.nationalite = nationalite ; 
