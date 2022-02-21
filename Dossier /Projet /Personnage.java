@@ -23,8 +23,8 @@ public  class  Personnage  {
 		this.pilosite = pilosite  ; 
 	}
 	
-	public void getNom(String nom){
-		return; 
+	public String getNom(String nom){
+		return nom ; 
 	}
 	public Cheveux getCheveux() {
 		return cheveux;
