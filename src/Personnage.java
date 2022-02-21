@@ -7,7 +7,7 @@ public  class  Personnage  {
 	private  final CouleurCheveux  couleurCheveux ;  //  clair foncé 
 	private  final Pilosite  pilosite ;  //  barbe imberbe  
 	private  final Cheveux  cheveux ;// chauve court long 
-	private final String nom; //final en pratique 
+	private String nom; //final en pratique 
 	private String image; //final en pratique
 
 	// Constructeurs 
@@ -30,8 +30,8 @@ public  class  Personnage  {
 		this.genre = genre ; 
 		this.cheveux = cheveux ; 
 		this.pilosite = pilosite  ; 
-		this . nom = nom;
-		this . image = image; 
+		this.nom = nom;
+		this.image = image; 
 		
 	}
 	
