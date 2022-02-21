@@ -1,6 +1,5 @@
 public  class  Personnage  { 
 
-	private final String nom; //nom et prénom du personnage
 	private  final Sport  sport ;  //  collectif ou individuel 
 	private  final Age age ;    //  moins de 25 entre 25 et 40 plus de 40 
 	private  final Nationalite  nationalite ;  //  pays 
@@ -12,8 +11,7 @@ public  class  Personnage  {
 
 	// Constructeurs 
 
-	public  Personnage ( String nom,Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite ){ 
-		this.nom = nom;
+	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite ){ 
 		this.sport = sport ; 
 		this.age = age ; 
 		this.nationalite = nationalite ; 
@@ -23,8 +21,8 @@ public  class  Personnage  {
 		this.pilosite = pilosite  ; 
 	}
 	
-	public void getNom(String nom){
-		return; 
+	public void setNom(String nom){
+		this.nom = nom; 
 	}
 	public Cheveux getCheveux() {
 		return cheveux;
