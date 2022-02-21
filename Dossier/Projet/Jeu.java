@@ -1,23 +1,22 @@
+import com.google.gson.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import com.google.gson.Gson;
-
+//import java.util.ArrayList; 
 public class Jeu {
-    private static final Personnage personnageChoisi; 
-    private static final Personnage [] personnages ; 
-    public static boolean poserQuestion(Question question){
-        return question.surPersonnage(personnageChoisi);
-    }
-    private static Personnage[] parserPersonnages() throws IOException{
-        Path nomFichier = Path.of("personnages.json");
-        String persosJson = Files.readString(nomFichier);
-        return (new Gson().fromJson(persosJson,Personnage[].class));  
+    private static Personnage[] personnages; 
+    private static void parserPersonnage (){
+        try {
+        String json = OuvrirFichier.ouvrir("../../personnages.json");
+        final Gson gson = new GsonBuilder().create();
+        personnages = gson.fromJson(json,Personnage[].class);
+        }
+        catch (IOException e){
+            System.err.println("erreur dans ouvertures du fichier personnages.json"); 
+            e.printStackTrace();
 
-
-
-    }
     
-    
+
+        }
+
+    }
+
 }
