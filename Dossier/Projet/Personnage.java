@@ -7,7 +7,8 @@ public  class  Personnage  {
 	private  final CouleurCheveux  couleurCheveux ;  //  clair foncé 
 	private  final Pilosite  pilosite ;  //  barbe imberbe  
 	private  final Cheveux  cheveux ;// chauve court long 
-	private  String nom; //final en pratique 
+	private final String nom; //final en pratique 
+	private String image; //final en pratique
 
 	// Constructeurs 
 
@@ -20,10 +21,29 @@ public  class  Personnage  {
 		this.cheveux = cheveux ; 
 		this.pilosite = pilosite  ; 
 	}
-	
-	public void setNom(String nom){
-		this.nom = nom; 
+	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite
+	, String nom, String image ){ 
+		this.sport = sport ; 
+		this.age = age ; 
+		this.nationalite = nationalite ; 
+		this.couleurCheveux = couleurCheveux ; 
+		this.genre = genre ; 
+		this.cheveux = cheveux ; 
+		this.pilosite = pilosite  ; 
+		this . nom = nom;
+		this . image = image; 
+		
 	}
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	
 	public Cheveux getCheveux() {
 		return cheveux;
 	}
