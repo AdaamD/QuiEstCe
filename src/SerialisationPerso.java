@@ -25,7 +25,7 @@ public class SerialisationPerso {
 
 		Personnage  MC =  new  Personnage  (  Sport.INDIVIDUEL  ,  Age.ENTRE_VINGT_CINQ_ET_QUARANTE ,  Nationalite.IRLANDAISE ,  CouleurCheveux.CLAIR ,  Genre.MASCULIN
         ,  Cheveux.COURT ,  Pilosite.BARBE, "Connor McGregor", "mcgregor.jpg"  ) ; 
-		Personnage  ML  =  new  Personnage  (  Sport.COLLECTIF  ,  Age.ENTRE_VINGT_CINQ_ET_QUARANTE ,  Nationalite.ARGENTINE ,  CouleurCheveux.FONCE ,  Genre . MASCULIN
+		Personnage  MeL  =  new  Personnage  (  Sport.COLLECTIF  ,  Age.ENTRE_VINGT_CINQ_ET_QUARANTE ,  Nationalite.ARGENTINE ,  CouleurCheveux.FONCE ,  Genre . MASCULIN
         ,  Cheveux.COURT ,  Pilosite.BARBE, "Lionel Messi", "messi.jpg" ) ; 
 		Personnage  MA =  new  Personnage  (  Sport.COLLECTIF  ,  Age.ENTRE_VINGT_CINQ_ET_QUARANTE ,  Nationalite.USA ,  CouleurCheveux.FONCE ,  Genre.FEMININ 
         ,  Cheveux.LONG ,  Pilosite.IMBERBE,"Alex Morgan", "morgan.jpg"  ) ; 
@@ -41,7 +41,7 @@ public class SerialisationPerso {
           Cheveux.COURT ,  Pilosite.IMBERBE, "Zinedine Zidane", "zidane.jpg"  ) ; 
 
 
-        final Personnage[] persos = {DN, HL,KN,LP,LJ,ML,MF,MK,MC,ML,MA,RK,RW,WS,YT,ZZ};
+        final Personnage[] persos = {DN, HL,KN,LP,LJ,ML,MF,MK,MC,MeL,MA,RK,RW,WS,YT,ZZ};
         System.out.println(gson.toJson(persos)); 
     }
     
