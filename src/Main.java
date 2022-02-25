@@ -53,7 +53,9 @@ public class Main
 	{ 	JPanel question = new JPanel();
 		JPanel reponse =  new JPanel();
 		reponse.add(reponseOui);
+		reponseOui.setVisible(false);
 		reponse.add(reponseNon);
+		reponseNon.setVisible(false); 
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
@@ -92,7 +94,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
 			bouton.setBounds(40,80,200,250);
 			
-			panelsPersos[(i-1)/4].add(bouton); 
+			panelsPersos[i/4].add(bouton); 
 			bouton.addActionListener(new ActionListener() {     
 
 				public void actionPerformed(ActionEvent e) {
