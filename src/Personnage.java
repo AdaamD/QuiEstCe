@@ -34,8 +34,14 @@ public  class  Personnage  {
 		this.image = image; 
 		
 	}
+
+	@Override
+	public String toString(){
+		return nom; 
+
+	}
 	
-	public String getImage() {
+	public String getPhoto() {
 		return image;
 	}
 

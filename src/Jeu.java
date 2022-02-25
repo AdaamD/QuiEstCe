@@ -2,11 +2,12 @@ import com.google.gson.*;
 import java.io.IOException;
 //import java.util.ArrayList; 
 public class Jeu {
-    private static Personnage[] personnages; 
+    private static Personnage[] personnages;
+    private static final String dossierImages = "../"; 
     public static void testParsing(){
 	parserPersonnages();
 	for(int p = 0; p<personnages.length;p++){
-		System.out.println(personnages[p].getImage());
+		System.out.println(personnages[p].getPhoto());
 	}
 }
     private static void parserPersonnages (){
@@ -22,6 +23,17 @@ public class Jeu {
     
 
         }
+
+    }
+    public static Personnage[] getPersonnages (){
+        if (personnages == null) {
+            parserPersonnages();
+
+        }
+        return personnages; 
+    }
+    public static String getImage(String nom){
+        return dossierImages + nom;
 
     }
 
