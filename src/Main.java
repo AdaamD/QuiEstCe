@@ -87,8 +87,9 @@ public class Main
 //Creation des ICON de personnages 
 ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 		for (int i = 0; i<personnages.length;i++){
-			JButton bouton = new JButton(new ImageIcon(
-				Jeu.getImage (personnages[i].getPhoto()))); 
+			JButton bouton = new JButton(new ImageIcon
+				(new ImageIcon(Jeu.getImage(personnages[i].getPhoto())).getImage()
+				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
 			bouton.setBounds(40,80,200,250);
 			
 			panelsPersos[(i-1)/4].add(bouton); 
@@ -105,7 +106,6 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		frame.add(label);
 		frame.setLayout(new GridLayout(9,1));
 		
-
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
 		JComboBox<Sport> sports= new JComboBox<>(Sport.values());
