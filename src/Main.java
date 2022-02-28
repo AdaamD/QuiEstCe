@@ -144,7 +144,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 					reponseOui.setVisible(true);
 					reponseNon.setVisible(false);
 					frame.repaint();
-					JOptionPane.showMessageDialog(null , "Félicitation vous avez trouvé le personnage !!");
+					JOptionPane.showMessageDialog(null , "Felicitation vous avez trouvé le personnage !!");
 					
 				} 
 				else {
