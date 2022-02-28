@@ -50,22 +50,7 @@ public class Main
 
 
 	public static void main(String[] args) 
-	{ 	JPanel question = new JPanel();
-		JPanel reponse =  new JPanel();
-		reponse.add(reponseOui);
-		reponseOui.setVisible(false);
-		reponse.add(reponseNon);
-		reponseNon.setVisible(false); 
-		reponse.add(choisissez);
-		JPanel validation = new JPanel();
-		Personnage[] personnages = Jeu.getPersonnages();
-		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
-		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
-		for (int i = 0 ; i< panelsPersos.length; i++) {
-			frame.add(panelsPersos[i]); 
-		}
-	
+	{ 	
 		JMenuBar menu = new JMenuBar();						
 		JMenu file = new JMenu("Fichier");					
 		JMenu edit = new JMenu("Edition");					
@@ -85,6 +70,24 @@ public class Main
 		menu.add(edit);
 		menu.add(help);
 
+		
+		
+		JPanel question = new JPanel();
+		JPanel reponse =  new JPanel();
+		reponse.add(reponseOui);
+		reponseOui.setVisible(false);
+		reponse.add(reponseNon);
+		reponseNon.setVisible(false); 
+		reponse.add(choisissez);
+		JPanel validation = new JPanel();
+		Personnage[] personnages = Jeu.getPersonnages();
+		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
+		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
+		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
+		for (int i = 0 ; i< panelsPersos.length; i++) {
+			frame.add(panelsPersos[i]); 
+		}
+	
 
 //Creation des ICON de personnages 
 ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
