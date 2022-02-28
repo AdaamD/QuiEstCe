@@ -150,6 +150,13 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 			} 
 		});
+	 	
+	 // changer l'icone de l'interface
+		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
+		frame.setIconImage(icone);
+	 
+	 
+	 
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
