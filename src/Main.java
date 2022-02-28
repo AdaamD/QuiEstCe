@@ -70,8 +70,9 @@ public class Main
 		menu.add(edit);
 		menu.add(help);
 
-		
-		
+
+
+
 		JPanel question = new JPanel();
 		JPanel reponse =  new JPanel();
 		reponse.add(reponseOui);
@@ -81,13 +82,18 @@ public class Main
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
-		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
+		//JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
+		//frame.add(label);
 		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
 		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
 		for (int i = 0 ; i< panelsPersos.length; i++) {
 			frame.add(panelsPersos[i]); 
 		}
 	
+		
+
+		
+
 
 //Creation des ICON de personnages 
 ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
@@ -108,8 +114,8 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 		}
 
-		frame.add(label);
-		frame.setLayout(new GridLayout(9,1));
+		
+		frame.setLayout(new GridLayout(8,1));
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
@@ -153,13 +159,13 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 			} 
 		});
-	 	
-	 // changer l'icone de l'interface
+
+		// changer l'icone de l'interface
 		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
 		frame.setIconImage(icone);
-	 
-	 
-	 
+
+
+
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
