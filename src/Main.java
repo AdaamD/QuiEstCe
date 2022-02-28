@@ -9,6 +9,7 @@ public class Main
 
 {
 		private static final JFrame frame = new JFrame("Qui est ce ??");
+		private static final JFrame accueil = new JFrame("Accueil");
 		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
 		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
@@ -64,7 +65,7 @@ public class Main
 		file.add(newf);
 		file.add(save);
 		file.add(quit);
-		quit.addActionListener(e -> { frame.dispose();});
+		quit.addActionListener(e -> { frame.setVisible(false); accueil.setVisible(true);});
 
 		menu.add(file);
 		menu.add(edit);
@@ -82,7 +83,7 @@ public class Main
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
-		//JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
+		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
 		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
 		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
@@ -144,7 +145,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 					reponseOui.setVisible(true);
 					reponseNon.setVisible(false);
 					frame.repaint();
-					JOptionPane.showMessageDialog(null , "Felicitation vous avez trouvé le personnage !!");
+					JOptionPane.showMessageDialog(null , "Félicitation vous avez trouvé le personnage !!");
 					
 				} 
 				else {
@@ -163,6 +164,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		// changer l'icone de l'interface
 		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
 		frame.setIconImage(icone);
+		accueil.setIconImage(icone);
 
 
 
@@ -181,6 +183,36 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		frame.setSize(500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.lightGray);
-		frame.setVisible(true);
+		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+		frame.setVisible(false);
+
+
+
+		//écran d'accueil
+		JButton jouer= new JButton("Cliquer pour jouer");
+		accueil.add(jouer);
+		
+	//rendre le bouton transparent
+    	jouer.setOpaque(false);
+    //enlever la zone de contenu
+    	jouer.setContentAreaFilled(false);
+    //enlever la bordure
+   	 	jouer.setBorderPainted(false);
+   	//pour lancer le jeu
+		jouer.addActionListener(new ActionListener() {     
+
+			public void actionPerformed(ActionEvent e) {
+				accueil.setVisible(false);
+				frame.setVisible(true);				
+			}});
+
+		accueil.pack();
+		accueil.setSize(500, 500);
+		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		accueil.getContentPane().setBackground(Color.lightGray);
+		accueil.setVisible(true);
+		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+
+
 	}
 }
