@@ -48,7 +48,6 @@ public class Main
 		return nb_Alea;
 	}
 
-
 	public static void main(String[] args) 
 	{ 	
 	// menus 
@@ -84,12 +83,9 @@ public class Main
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
-
-
 		menu.add(file);
 		menu.add(theme);
 		menu.add(help);
-
 
 		JPanel question = new JPanel();
 		JPanel reponse =  new JPanel();
@@ -232,8 +228,9 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		});
 
 
-
-
+		
+		
+		
 		//pour charger une partie ou lancer une nouvelle(pas encore fonctionnel)
 		//new game
 		newf.addActionListener(e ->{
@@ -249,8 +246,6 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 
 		
-		
-
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
