@@ -258,7 +258,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		question.add(cheveux);
 		validation.add(labelPersos);
 		frame.pack();
-		frame.setSize(500, 500);
+		frame.setSize(1500, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.lightGray);
 		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
