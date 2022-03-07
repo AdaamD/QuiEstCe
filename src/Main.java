@@ -234,6 +234,36 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		//pour charger une partie ou lancer une nouvelle(pas encore fonctionnel)
 		//new game
 		newf.addActionListener(e ->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+			
+			String ligne;
+			
+			while ((ligne = lecteur.readLine()) != null) {
+				resultat.append(ligne + "\n"); 
+			}
+			
+			int valeurDeSortie = processus.waitFor();
+			if (valeurDeSortie == 0) {
+				System.out.println("Success!");
+				System.out.println(resultat); 
+				System.exit(0);
+			} else {
+				System.out.println("Quelquechose de pas normal s'est produit :( "); 
+			}
+				
+		} catch (IOException t) {
+			t.printStackTrace();
+		} catch (InterruptedException t) {
+			t.printStackTrace();
+		}
+			
 
 			;});
 
