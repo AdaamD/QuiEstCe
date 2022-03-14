@@ -318,11 +318,14 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 			}});
 
 		accueil.pack();
-		accueil.setSize(500, 500);
+		accueil.setSize(1200, 1200);
 		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		accueil.setContentPane(new JLabel(new ImageIcon (Jeu.getImage("qui.jpg"))));
 		accueil.getContentPane().setBackground(Color.lightGray);
 		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
 		accueil.setVisible(true);
+		accueil.add(jouer);
+
 
 	}
 }
