@@ -300,7 +300,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 
 		//écran d'accueil
-		JButton jouer= new JButton("Cliquer pour jouer");
+		JButton jouer= new JButton("");
 		accueil.add(jouer);
 		
 	//rendre le bouton transparent
