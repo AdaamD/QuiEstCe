@@ -326,6 +326,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		accueil.setVisible(true);
 		accueil.add(jouer);
 
+		
 
 	}
 }
