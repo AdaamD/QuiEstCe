@@ -4,6 +4,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main 
 
@@ -227,8 +230,35 @@ public class Main
 		//pour charger une partie ou lancer une nouvelle(pas encore fonctionnel)
 		//new game
 		newf.addActionListener(e ->{
-
-			;});
+			frame.dispose();
+			accueil.dispose();
+			try {
+			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+			
+			String ligne;
+			
+			while ((ligne = lecteur.readLine()) != null) {
+				resultat.append(ligne + "\n"); 
+			}
+			
+			int valeurDeSortie = processus.waitFor();
+			if (valeurDeSortie == 0) {
+				System.out.println("Success!");
+				System.out.println(resultat); 
+				System.exit(0);
+			} else {
+				System.out.println("Quelquechose de pas normal s'est produit :( "); 
+			}
+				
+		} catch (IOException t) {
+			t.printStackTrace();
+		} catch (InterruptedException t) {
+			t.printStackTrace();
+		};});
 
 		//charger une partie
 		load.addActionListener(e->{
@@ -252,7 +282,7 @@ public class Main
 		question.add(cheveux);
 		validation.add(labelPersos);
 		frame.pack();
-		frame.setSize(1500, 1000);
+		frame.setSize(1000, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.lightGray);
 		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
@@ -261,7 +291,7 @@ public class Main
 
 
 		//écran d'accueil
-		JButton jouer= new JButton("Cliquer pour jouer");
+		JButton jouer= new JButton("");
 		accueil.add(jouer);
 		
 	//rendre le bouton transparent
@@ -278,12 +308,7 @@ public class Main
 				frame.setVisible(true);				
 			}});
 
-		accueil.pack();
-		accueil.setSize(500, 500);
-		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		accueil.getContentPane().setBackground(Color.lightGray);
-		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-		accueil.setVisible(true);
+		accueil.add(jouer);	
 
 	}
 }

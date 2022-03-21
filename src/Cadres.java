@@ -11,10 +11,20 @@ public class Cadres {
 
     }
     public static JFrame accueil (){
-        JFrame accueil = new JFrame ("accueil");
-        JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
-		accueil.add(label);
-        accueil.setIconImage(icone);
+       JFrame accueil = new JFrame("Accueil");
+		accueil.setIconImage(icone);
+        accueil.pack();
+		accueil.setSize(1200, 1200);
+		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		accueil.setContentPane(new JLabel(new ImageIcon (Jeu.getImage("qui.jpg"))));
+		accueil.getContentPane().setBackground(Color.lightGray);
+		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+		accueil.setVisible(true);
+		
+
+
+
+        
         return accueil;}
     
 }
