@@ -7,11 +7,13 @@ import java.util.function.Function;
 public class Main 
 
 {
-		private static final JFrame frame = new JFrame("Qui est ce ??");
-		private static final JFrame accueil = new JFrame("Accueil");
+		
+		private static final JFrame accueil = Cadres.accueil();
 		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
 		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+		private static  JPanel[] panelsPersos; 
+		private static final JFrame frame = Cadres.cadre(panelsPersos); 
 		private static void repondreOui(){
 			System.out.println("oui");
 			reponseOui.setVisible(true);
@@ -96,32 +98,17 @@ public class Main
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
+		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
-		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
-		for (int i = 0 ; i< panelsPersos.length; i++) {
+		for (int i = 0; i<panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
+		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
+		
+		
 	
-//Creation des ICON de personnages 
-ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-		for (int i = 0; i<personnages.length;i++){
-			JButton bouton = new JButton(new ImageIcon
-				(new ImageIcon(Jeu.getImage(personnages[i].getPhoto())).getImage()
-				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
-			bouton.setBounds(40,80,200,250);
-			
-			panelsPersos[i/4].add(bouton); 
-			bouton.addActionListener(new ActionListener() {     
-
-				public void actionPerformed(ActionEvent e) {
-					bouton.setIcon(croix);				
-				} 
-			}); 
-		}
-	
-		frame.setLayout(new GridLayout(8,1));
+		
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
@@ -167,9 +154,8 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		});
 
 		// changer l'icone de l'interface
-		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
-		frame.setIconImage(icone);
-		accueil.setIconImage(icone);
+		
+		
 
 		//définition des différents thèmes
 		coldefaut.addActionListener(e ->{
@@ -245,10 +231,11 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 
 
-		
+			
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
+		
 		question.add(nationalites);
 		question.add(sports);
 		question.add(ages);
