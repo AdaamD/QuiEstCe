@@ -35,13 +35,15 @@ public  class  Personnage  {
 		this.image = image; 
 		
 	}
-
+    
 	@Override
 	public String toString(){
 		return nom; 
 
 	}
-	
+	public String getNom(){
+		return nom; 
+	}
 	public String getPhoto() {
 		return image;
 	}

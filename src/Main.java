@@ -45,11 +45,7 @@ public class Main
 				});
 		}
     // Fonction choix d'un nb aléatoire
-	public static  int Choixalea(int nbPersos){
-		Random random = new Random();
-		int nb_Alea = random.nextInt(nbPersos);
-		return nb_Alea;
-	}
+	
 
 	public static void main(String[] args) 
 	{ 	
@@ -114,7 +110,8 @@ public class Main
 		for (int i = 0; i<panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
+		Personnage persoChoisi = Jeu.personnageChoisi();
+		System.out.println("le personnage choisi est: " + persoChoisi.getNom()); 
 		
 		
 	
