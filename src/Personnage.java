@@ -75,5 +75,8 @@ public  class  Personnage  {
 	public boolean cocherOuDecocher(){
 		return coche = !coche ;
 	}
+	public boolean estCoche(){
+		return coche; 
+	}
 
 }
