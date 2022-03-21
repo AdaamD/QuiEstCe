@@ -88,7 +88,7 @@ btn.addActionListener(new ActionListener() {
                 String image = img.getText(); 
                 Personnage TEST  = new Personnage (var1, var2, var3 , var4,var5 , var6, var7 , nomecrit , image); 
                   
-                 System.out.println (TEST.toString()); 
+                 System.out.println (TEST.toStringGen()); 
                   panel.setVisible(true);
                   nom.setVisible(false); 
                  
