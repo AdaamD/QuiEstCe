@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;  
+import java.awt.event.*;
+import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -42,11 +43,6 @@ public class Main
 				});
 		}
     // Fonction choix d'un nb aléatoire
-	public static  int Choixalea(int nbPersos){
-		Random random = new Random();
-		int nb_Alea = random.nextInt(nbPersos);
-		return nb_Alea;
-	}
 
 	public static void main(String[] args) 
 	{ 	
@@ -79,7 +75,18 @@ public class Main
 		theme.add(rose);
 		theme.add(vert);
 		theme.add(bleu);
-		quit.addActionListener(e -> { frame.setVisible(false); accueil.setVisible(true);});
+		quit.addActionListener(e -> { 
+			try{
+				Jeu.sauvegarder();
+			}
+			catch (IOException ex){
+				System.err.println("echec de sauvegarde");
+			}
+			finally {
+				frame.setVisible(false); 
+				accueil.setVisible(true);
+			}
+			});
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
@@ -98,30 +105,13 @@ public class Main
 		Personnage[] personnages = Jeu.getPersonnages();
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
-		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
-		for (int i = 0 ; i< panelsPersos.length; i++) {
+		Personnage persoChoisi = Jeu.personnageChoisi();
+		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
+		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
+		frame.setLayout(new GridLayout(8,1));
+		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
-	
-//Creation des ICON de personnages 
-ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-		for (int i = 0; i<personnages.length;i++){
-			JButton bouton = new JButton(new ImageIcon
-				(new ImageIcon(Jeu.getImage(personnages[i].getPhoto())).getImage()
-				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
-			bouton.setBounds(40,80,200,250);
-			
-			panelsPersos[i/4].add(bouton); 
-			bouton.addActionListener(new ActionListener() {     
-
-				public void actionPerformed(ActionEvent e) {
-					bouton.setIcon(croix);				
-				} 
-			}); 
-		}
-	
-		frame.setLayout(new GridLayout(8,1));
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());

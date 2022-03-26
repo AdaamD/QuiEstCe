@@ -40,6 +40,9 @@ public  class  Personnage  {
 		return nom; 
 
 	}
+	public String getNom(){
+		return nom; 
+	}
 	
 	public String getPhoto() {
 		return image;
