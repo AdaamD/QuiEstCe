@@ -10,6 +10,7 @@ public  class  Personnage  {
 	private String nom; //final en pratique 
 	private String image; //final en pratique
 	private boolean coche;
+
 	// Constructeurs 
 
 	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite ){ 
@@ -80,5 +81,6 @@ public  class  Personnage  {
 	public boolean estCoche(){
 		return coche; 
 	}
+
 
 }

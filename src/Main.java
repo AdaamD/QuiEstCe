@@ -8,11 +8,13 @@ import java.util.function.Function;
 public class Main 
 
 {
-		private static final JFrame frame = new JFrame("Qui est ce ??");
-		private static final JFrame accueil = new JFrame("Accueil");
+		
+		private static final JFrame accueil = Cadres.accueil();
 		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
 		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+		private static  JPanel[] panelsPersos; 
+		private static final JFrame frame = Cadres.cadre(panelsPersos); 
 		private static void repondreOui(){
 			System.out.println("oui");
 			reponseOui.setVisible(true);
@@ -103,6 +105,7 @@ public class Main
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
+		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
 		Personnage persoChoisi = Jeu.personnageChoisi();
@@ -112,6 +115,7 @@ public class Main
 		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
+
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
@@ -157,9 +161,8 @@ public class Main
 		});
 
 		// changer l'icone de l'interface
-		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
-		frame.setIconImage(icone);
-		accueil.setIconImage(icone);
+		
+		
 
 		//définition des différents thèmes
 		coldefaut.addActionListener(e ->{
@@ -235,10 +238,11 @@ public class Main
 
 
 
-		
+			
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
+		
 		question.add(nationalites);
 		question.add(sports);
 		question.add(ages);

@@ -24,6 +24,7 @@ public class BoutonPersonnage extends JButton {
         iconePerso = new ImageIcon(new ImageIcon(Jeu.getImage(perso.getPhoto())).getImage()
         .getScaledInstance(200,200,Image.SCALE_DEFAULT));
         setIcon(perso.estCoche() ? croix : iconePerso);
+
         personnage = perso; 
         addActionListener(new ActionListener(){
             public void actionPerformed (ActionEvent e){
