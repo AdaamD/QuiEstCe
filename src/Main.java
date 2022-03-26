@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;  
+import java.awt.event.*;
+import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -44,11 +45,6 @@ public class Main
 				});
 		}
     // Fonction choix d'un nb aléatoire
-	public static  int Choixalea(int nbPersos){
-		Random random = new Random();
-		int nb_Alea = random.nextInt(nbPersos);
-		return nb_Alea;
-	}
 
 	public static void main(String[] args) 
 	{ 	
@@ -81,7 +77,18 @@ public class Main
 		theme.add(rose);
 		theme.add(vert);
 		theme.add(bleu);
-		quit.addActionListener(e -> { frame.setVisible(false); accueil.setVisible(true);});
+		quit.addActionListener(e -> { 
+			try{
+				Jeu.sauvegarder();
+			}
+			catch (IOException ex){
+				System.err.println("echec de sauvegarde");
+			}
+			finally {
+				frame.setVisible(false); 
+				accueil.setVisible(true);
+			}
+			});
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
@@ -101,14 +108,14 @@ public class Main
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		for (int i = 0; i<panelsPersos.length; i++){
+		Personnage persoChoisi = Jeu.personnageChoisi();
+		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
+		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
+		frame.setLayout(new GridLayout(8,1));
+		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
-		
-		
-	
-		
+
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
