@@ -9,7 +9,7 @@ public  class  Personnage  {
 	private  final Cheveux  cheveux ;// chauve court long 
 	private String nom; //final en pratique 
 	private String image; //final en pratique
-
+	private boolean coche;
 	// Constructeurs 
 
 	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite ){ 
@@ -70,6 +70,12 @@ public  class  Personnage  {
 	}
 	public Age getAge() {
 		return age;
+	}
+	public boolean cocherOuDecocher(){
+		return coche = !coche ;
+	}
+	public boolean estCoche(){
+		return coche; 
 	}
 
 }
