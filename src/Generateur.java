@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;  
 
-class generateur
+public class Generateur
 {
 
   private static <E> void assignerQuestion(JComboBox<E> box){
