@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;  
+import java.awt.event.*;
+import java.io.IOException;
 import java.util.Random;
 import java.util.function.Function;
 import java.io.BufferedReader;
@@ -10,11 +11,13 @@ import java.io.InputStreamReader;
 public class Main 
 
 {
-		private static final JFrame frame = new JFrame("Qui est ce ??");
-		private static final JFrame accueil = new JFrame("Accueil");
+		
+		private static final JFrame accueil = Cadres.accueil();
 		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
 		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+		private static  JPanel[] panelsPersos; 
+		private static final JFrame frame = Cadres.cadre(panelsPersos); 
 		private static void repondreOui(){
 			System.out.println("oui");
 			reponseOui.setVisible(true);
@@ -45,11 +48,6 @@ public class Main
 				});
 		}
     // Fonction choix d'un nb aléatoire
-	public static  int Choixalea(int nbPersos){
-		Random random = new Random();
-		int nb_Alea = random.nextInt(nbPersos);
-		return nb_Alea;
-	}
 
 	public static void main(String[] args) 
 	{ 	
@@ -82,7 +80,18 @@ public class Main
 		theme.add(rose);
 		theme.add(vert);
 		theme.add(bleu);
-		quit.addActionListener(e -> { frame.setVisible(false); accueil.setVisible(true);});
+		quit.addActionListener(e -> { 
+			try{
+				Jeu.sauvegarder();
+			}
+			catch (IOException ex){
+				System.err.println("echec de sauvegarde");
+			}
+			finally {
+				frame.setVisible(false); 
+				accueil.setVisible(true);
+			}
+			});
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
@@ -99,32 +108,17 @@ public class Main
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages();
+		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = personnages[Choixalea(personnages.length)];
-		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
-		for (int i = 0 ; i< panelsPersos.length; i++) {
+		Personnage persoChoisi = Jeu.personnageChoisi();
+		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
+		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
+		frame.setLayout(new GridLayout(8,1));
+		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
-	
-//Creation des ICON de personnages 
-ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-		for (int i = 0; i<personnages.length;i++){
-			JButton bouton = new JButton(new ImageIcon
-				(new ImageIcon(Jeu.getImage(personnages[i].getPhoto())).getImage()
-				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
-			bouton.setBounds(40,80,200,250);
-			
-			panelsPersos[i/4].add(bouton); 
-			bouton.addActionListener(new ActionListener() {     
 
-				public void actionPerformed(ActionEvent e) {
-					bouton.setIcon(croix);				
-				} 
-			}); 
-		}
-	
-		frame.setLayout(new GridLayout(8,1));
 		
 		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
@@ -170,9 +164,8 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		});
 
 		// changer l'icone de l'interface
-		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
-		frame.setIconImage(icone);
-		accueil.setIconImage(icone);
+		
+		
 
 		//définition des différents thèmes
 		coldefaut.addActionListener(e ->{
@@ -278,10 +271,11 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 
 
 
-		
+			
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
+		
 		question.add(nationalites);
 		question.add(sports);
 		question.add(ages);
@@ -291,7 +285,7 @@ ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage
 		question.add(cheveux);
 		validation.add(labelPersos);
 		frame.pack();
-		frame.setSize(1000, 1000);
+		frame.setSize(1500, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.lightGray);
 		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));

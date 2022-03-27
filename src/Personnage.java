@@ -9,6 +9,7 @@ public  class  Personnage  {
 	private   Cheveux  cheveux ;// chauve court long 
 	private String nom; //final en pratique 
 	private String image; //final en pratique
+	private boolean coche;
 
 	// Constructeurs 
 
@@ -48,6 +49,10 @@ public  class  Personnage  {
 
 	}
 
+	public String getNom(){
+		return nom; 
+	}
+
 	
 	public String getPhoto() {
 		return image;
@@ -79,5 +84,12 @@ public  class  Personnage  {
 	public Age getAge() {
 		return age;
 	}
+	public boolean cocherOuDecocher(){
+		return coche = !coche ;
+	}
+	public boolean estCoche(){
+		return coche; 
+	}
+
 
 }
