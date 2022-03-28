@@ -1,4 +1,5 @@
 bin
+src/*.json
 .vscode
 # Compiled class file
 *.class
