@@ -25,10 +25,10 @@ public class Jeu {
          return partie.personnages[partie.indicePersoChoisi]; 
 		
     }
-    public static void nouvellePartie() {
+    public static void nouvellePartie(boolean custom) {
         final Gson gson = new GsonBuilder().create();
         try { 
-            String json = OuvrirFichier.ouvrir("../personnages.json");
+            String json = OuvrirFichier.ouvrir(custom ? "persosCustom.json":"../personnages.json");
             partie.personnages = gson.fromJson(json,Personnage[].class);
             }
             catch (IOException e){
@@ -44,14 +44,17 @@ public class Jeu {
         Files.write(Paths.get("sauvegarde.json"),serialiserPartie().getBytes()); 
     }
     public static void testParsing(){
-	parserPersonnages();
+	parserPersonnages(false,true);
 	for(int p = 0; p<partie.personnages.length;p++){
 		System.out.println(partie.personnages[p].getPhoto());
 	}
 }
-    private static void parserPersonnages (){
+    private static void parserPersonnages (boolean custom,boolean nouvelle){
         partie = new Jeu();
+        if (nouvelle) nouvellePartie(custom);
+        else{
         final Gson gson = new GsonBuilder().create();
+        
         try {
             String json = OuvrirFichier.ouvrir("sauvegarde.json");
             partie = gson.fromJson(json,partie.getClass());
@@ -59,17 +62,18 @@ public class Jeu {
         }
         catch (IOException e1) {
             System.out.println("reprise de la partie sauvegardée échouée");
-            nouvellePartie();
-        }
+            nouvellePartie(custom);
+        }}
 
     }
-    public static Personnage[] getPersonnages (){
+    public static Personnage[] getPersonnages (boolean custom, boolean nouvelle){
         if (partie == null) {
-            parserPersonnages();
+            parserPersonnages(custom,nouvelle);
 
         }
         return partie.personnages; 
     }
+    
     public static String getImage(String nom){
         return dossierImages + nom;
 

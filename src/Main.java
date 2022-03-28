@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.function.Function;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -54,9 +55,9 @@ public class Main
 		JMenu file = new JMenu("Fichier");					
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
-		JMenuItem newf = new JMenuItem("Nouveau");
-		JMenuItem load = new JMenuItem("Charger");
-		JMenuItem quit = new JMenuItem("Quitter");
+		JMenuItem newf = new JMenuItem("Redemarrer");
+		JMenuItem load = new JMenuItem("Option Inutile");
+		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
@@ -105,7 +106,9 @@ public class Main
 		reponseNon.setVisible(false); 
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
-		Personnage[] personnages = Jeu.getPersonnages();
+		Personnage[] personnages = Jeu.getPersonnages(
+			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
+		);
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
