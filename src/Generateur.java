@@ -17,16 +17,16 @@ import java.util.ArrayList;
 
 class Generateur
 {
-    private static ArrayList<Personnage> persosCrees = new ArrayList<>(); 
+    private static ArrayList<Personnage> persosCrees; 
     private static final Gson gson = new GsonBuilder().create();
     private static <E> void assignerQuestion(JComboBox<E> box){
         box.addActionListener(new ActionListener() {    
                 //    @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 System.out.println(box.getSelectedItem()) ;
-               
-               
+
+
             }
         });
     }
@@ -40,25 +40,28 @@ class Generateur
         JFrame frame = new JFrame("Generateur");
         JFrame photos = new JFrame("Personnages générés");
         JPanel panel = new JPanel();
-        JPanel affichephoto = new JPanel (); 
-        JPanel exportation = new JPanel();   
-       
+        
+        
+
 
         JButton valider = new JButton("Valider");
-        JButton creer = new JButton("creer");
+        JButton cliquer = new JButton("creer");
+        JButton exporter = new JButton("Exporter grille de personnages") ; 
         JTextField nom = new JTextField("entrez le nom "); nom.setBounds(20,40,200,28);
         JTextField img = new JTextField("entrez le lien de l'image "); img.setBounds(20,40,200,28); img.setVisible(false);
-       
+
         valider.setBounds(100,100,100,40);
-        creer.setBounds(100,100,100,40);
+        cliquer.setBounds(100,100,100,40);    
+        exporter.setBounds(100,200,500,40);
 
 
-// Grille de persos 
-        JButton exporter = new JButton("Exporter grille de personnages") ; 
-
+        frame.add(nom);
+        frame.add(img);
+        frame.add(cliquer);
+        frame.add(exporter); 
         exporter.addActionListener(new ActionListener() {    
 
-                    public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                         
                         if (persosCrees.size() >= 1) {
                             Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
@@ -79,35 +82,27 @@ class Generateur
                 });
 
 
-               
-
-            
 
 
-        creer.addActionListener(new ActionListener() {    
+
+
+
+        cliquer.addActionListener(new ActionListener() {    
                 //    @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 panel.setVisible(true);
                 nom.setVisible(false);
                 img.setVisible(true);
-                creer.setVisible(false);
-                panel.add(valider);
-                System.out.println(persosCrees.size());
-               
-               
-               
+                cliquer.setVisible(false);
+                exporter.setVisible(false);
+                panel.add(valider);                  
             }
         });
 
 
-
-       
-
-       
-
         JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
-    //assignerQuestion(nationalites);
+        //assignerQuestion(nationalites);
         JComboBox<Sport> sports= new JComboBox<>(Sport.values());
         //assignerQuestion(sports);
         JComboBox<Age> ages = new JComboBox<>(Age.values());
@@ -122,12 +117,12 @@ class Generateur
         //assignerQuestion(cheveux);
 
         JPanel[] panelsPersos = {new JPanel()};
-       
-       
+
+
         valider.addActionListener(new ActionListener() {    
                 //    @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 Sport    var1 =(Sport) sports.getSelectedItem();
                 Age var2 =(Age) ages.getSelectedItem();
                 Nationalite var3= (Nationalite ) nationalites.getSelectedItem();
@@ -138,53 +133,40 @@ class Generateur
                 String nomecrit = nom.getText();
                 String image = img.getText();
                 Personnage TEST  = new Personnage (var1, var2, var3 , var4,var5 , var6, var7 , nomecrit , image);
-                persosCrees.add(TEST); 
+
                 System.out.println (TEST.toStringGen());
                 int i=0;
-               
+
                 photos.setVisible(true);
                 photos.setVisible(false); photos.setVisible(true);
-				frame.setVisible(true);
+                frame.setVisible(true);
                 panel.setVisible(false);
                 nom.setVisible(true);
                 img.setVisible(false);
-                creer.setVisible(true);
+                cliquer.setVisible(true);
                 panel.remove(valider);
-               
-               
+                photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-               
 
-               
-               
+
                 JButton bouton = new JButton(new ImageIcon(new ImageIcon(Jeu.getImage(TEST.getPhoto())).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT)));
-               
-               
+
+
                 panelsPersos[i].add(bouton);
-                affichephoto.add(panelsPersos[i]);
-               
+                photos.add(panelsPersos[i]);
+
                 i=i+1;
 
                 bouton.addActionListener(new ActionListener() {    
 
                     public void actionPerformed(ActionEvent e) {
-                        JOptionPane.showMessageDialog(null,"Nom:"+nomecrit+"\nSport: "+var1+"\nAge: "+var2+"\nNationalité: "+var3+"\nCouleur de cheveux: "+var4+"\nGenre: "+var5+"\nCheveux: "+var6+"\nPilosité: "+var7);
-                       
+                        JOptionPane.showMessageDialog(null,"Nom:"+nomecrit+"\nSport: "+var1+"\nAge: "+var2+"\nNationalité: "+var3+"\nCouleur de cheveux: "+var4+"\nGenre: "+var5+"\nCheveux: "+var6+"\nPilosité: "+var7,nomecrit,JOptionPane.INFORMATION_MESSAGE);
+
                     }
                 });
-
-
-               
-
             }}); 
 
-       
-
-exportation.add(exporter) ; 
-        
-        frame.add(nom);
-        frame.add(img);
-        frame.add(creer);
+        exporter.setVisible(true);
         panel.add(nationalites);
         panel.add(sports);
         panel.add(ages);
@@ -193,8 +175,8 @@ exportation.add(exporter) ;
         panel.add(pilosites);
         panel.add(cheveux);
         panel.setVisible(false);
-photos.add(affichephoto) ; 
-photos.add(exportation); 
+
+
         frame.add(panel);
 
 
@@ -205,20 +187,20 @@ photos.add(exportation);
         frame.getContentPane().setBackground(Color.lightGray);
         frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
         frame.setVisible(true);
-        photos.pack();
 
-photos.setLayout(new GridLayout(2,1)) ; 
-        photos.setSize(600, 600);
+        photos.pack();
+        photos.setSize(1200,1200);
         photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         //photos.setUndecorated(true);
         photos.setVisible(false);
-       
+
         photos.getContentPane().setBackground(Color.lightGray);
         photos.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-        //photos.setVisible(false);
-       
-       
+        
 
-       
+
+
+
     }
 }
