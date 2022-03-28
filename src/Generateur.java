@@ -1,5 +1,9 @@
 
 import javax.swing.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.awt.*;
 import java.awt.event.*;  
 import java.util.Random;
@@ -7,10 +11,14 @@ import java.util.function.Function;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 class Generateur
 {
-
+    private static ArrayList<Personnage> persosCrees; 
+    private static final Gson gson = new GsonBuilder().create();
     private static <E> void assignerQuestion(JComboBox<E> box){
         box.addActionListener(new ActionListener() {    
                 //    @Override
@@ -51,6 +59,20 @@ class Generateur
         exporter.addActionListener(new ActionListener() {    
 
                     public void actionPerformed(ActionEvent e) {
+                        
+                        if (persosCrees.size() == 16) {
+                            Personnage[] ps = (Personnage[]) persosCrees.toArray(); 
+                            String s = gson.toJson(ps);
+                            try {
+                            Files.deleteIfExists(Paths.get("../persosCustom.json"));
+                            Files.write(Paths.get("../persosCustom.json"),s.getBytes()); }
+                            catch (IOException ioe){
+                                System.err.println("erreur dans export de la grille");
+                                ioe.printStackTrace();
+                            }
+
+                        }
+
                         
                        
                     }
