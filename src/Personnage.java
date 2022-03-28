@@ -1,12 +1,12 @@
 public  class  Personnage  { 
 
-	private  final Sport  sport ;  //  collectif ou individuel 
-	private  final Age age ;    //  moins de 25 entre 25 et 40 plus de 40 
-	private  final Nationalite  nationalite ;  //  pays 
-	private final Genre  genre  ; // h ou f 
-	private  final CouleurCheveux  couleurCheveux ;  //  clair foncé 
-	private  final Pilosite  pilosite ;  //  barbe imberbe  
-	private  final Cheveux  cheveux ;// chauve court long 
+	private   Sport  sport ;  //  collectif ou individuel 
+	private   Age age ;    //  moins de 25 entre 25 et 40 plus de 40 
+	private   Nationalite  nationalite ;  //  pays 
+	private  Genre  genre  ; // h ou f 
+	private   CouleurCheveux  couleurCheveux ;  //  clair foncé 
+	private   Pilosite  pilosite ;  //  barbe imberbe  
+	private   Cheveux  cheveux ;// chauve court long 
 	private String nom; //final en pratique 
 	private String image; //final en pratique
 	private boolean coche;
@@ -36,14 +36,23 @@ public  class  Personnage  {
 		
 	}
 
+	public Personnage () {}
+
 	@Override
 	public String toString(){
-		return nom; 
+		return  nom ; 
 
 	}
+
+	public String toStringGen(){
+		return  nom + "\n" + nationalite + "\n" + sport + "\n" + age + "\n" + genre + "\n" + couleurCheveux + "\n" + pilosite + "\n" + cheveux + "\n" + image ; 
+
+	}
+
 	public String getNom(){
 		return nom; 
 	}
+
 	
 	public String getPhoto() {
 		return image;
