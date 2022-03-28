@@ -25,7 +25,20 @@ public class Jeu {
          return partie.personnages[partie.indicePersoChoisi]; 
 		
     }
-
+    public static void nouvellePartie() {
+        final Gson gson = new GsonBuilder().create();
+        try { 
+            String json = OuvrirFichier.ouvrir("../personnages.json");
+            partie.personnages = gson.fromJson(json,Personnage[].class);
+            }
+            catch (IOException e){
+                System.err.println("erreur dans ouvertures du fichier personnages.json"); 
+                e.printStackTrace();
+    
+        
+    
+            }
+    }
     public static void sauvegarder () throws IOException{
         Files.deleteIfExists(Paths.get(partie.fichierSauvegarde()));
         Files.write(Paths.get("sauvegarde.json"),serialiserPartie().getBytes()); 
@@ -46,17 +59,7 @@ public class Jeu {
         }
         catch (IOException e1) {
             System.out.println("reprise de la partie sauvegardée échouée");
-            try { 
-                String json = OuvrirFichier.ouvrir("../personnages.json");
-                partie.personnages = gson.fromJson(json,Personnage[].class);
-                }
-                catch (IOException e){
-                    System.err.println("erreur dans ouvertures du fichier personnages.json"); 
-                    e.printStackTrace();
-        
-            
-        
-                }
+            nouvellePartie();
         }
 
     }
