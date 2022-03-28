@@ -15,7 +15,7 @@ java -cp .:gson-2.8.2.jar Main
 Sur Windows 10:
 java -cp '.;gson-2.8.2.jar' Main
 
-Par défaut, le jeu reprend la partie sauvegardée SI LA PARTIE A ETE QUITTEE EN CLIQUANT SUR "SAUVEGARDER"
+Par défaut, le jeu reprend la partie sauvegardée SI LA PARTIE A ETE QUITTEE EN CLIQUANT SUR "File/Sauvegarder"
 Sinon l'arguement n pour créer une nouvelle partie
 Et l'argument c pour utiliser les personnages de src/persosCustom.json, unique fichier manipulé par le générateur
 
