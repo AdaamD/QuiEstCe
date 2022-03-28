@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 class Generateur
 {
-    private static ArrayList<Personnage> persosCrees; 
+    private static ArrayList<Personnage> persosCrees = new ArrayList<>(); 
     private static final Gson gson = new GsonBuilder().create();
     private static <E> void assignerQuestion(JComboBox<E> box){
         box.addActionListener(new ActionListener() {    
@@ -45,12 +45,12 @@ class Generateur
        
 
         JButton valider = new JButton("Valider");
-        JButton cliquer = new JButton("creer");
+        JButton creer = new JButton("creer");
         JTextField nom = new JTextField("entrez le nom "); nom.setBounds(20,40,200,28);
         JTextField img = new JTextField("entrez le lien de l'image "); img.setBounds(20,40,200,28); img.setVisible(false);
        
         valider.setBounds(100,100,100,40);
-        cliquer.setBounds(100,100,100,40);
+        creer.setBounds(100,100,100,40);
 
 
 // Grille de persos 
@@ -60,12 +60,12 @@ class Generateur
 
                     public void actionPerformed(ActionEvent e) {
                         
-                        if (persosCrees.size() == 16) {
-                            Personnage[] ps = (Personnage[]) persosCrees.toArray(); 
-                            String s = gson.toJson(ps);
+                        if (persosCrees.size() >= 1) {
+                            Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
+                            String s = gson.toJson(ps,Personnage[].class);
                             try {
-                            Files.deleteIfExists(Paths.get("../persosCustom.json"));
-                            Files.write(Paths.get("../persosCustom.json"),s.getBytes()); }
+                            Files.deleteIfExists(Paths.get("persosCustom.json"));
+                            Files.write(Paths.get("persosCustom.json"),s.getBytes()); }
                             catch (IOException ioe){
                                 System.err.println("erreur dans export de la grille");
                                 ioe.printStackTrace();
@@ -84,16 +84,16 @@ class Generateur
             
 
 
-        cliquer.addActionListener(new ActionListener() {    
+        creer.addActionListener(new ActionListener() {    
                 //    @Override
             public void actionPerformed(ActionEvent e) {
                
                 panel.setVisible(true);
                 nom.setVisible(false);
                 img.setVisible(true);
-                cliquer.setVisible(false);
+                creer.setVisible(false);
                 panel.add(valider);
-
+                System.out.println(persosCrees.size());
                
                
                
@@ -138,7 +138,7 @@ class Generateur
                 String nomecrit = nom.getText();
                 String image = img.getText();
                 Personnage TEST  = new Personnage (var1, var2, var3 , var4,var5 , var6, var7 , nomecrit , image);
-               
+                persosCrees.add(TEST); 
                 System.out.println (TEST.toStringGen());
                 int i=0;
                
@@ -148,7 +148,7 @@ class Generateur
                 panel.setVisible(false);
                 nom.setVisible(true);
                 img.setVisible(false);
-                cliquer.setVisible(true);
+                creer.setVisible(true);
                 panel.remove(valider);
                
                
@@ -184,7 +184,7 @@ exportation.add(exporter) ;
         
         frame.add(nom);
         frame.add(img);
-        frame.add(cliquer);
+        frame.add(creer);
         panel.add(nationalites);
         panel.add(sports);
         panel.add(ages);
