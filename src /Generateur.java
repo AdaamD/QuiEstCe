@@ -31,7 +31,9 @@ class Generateur
 
         JFrame frame = new JFrame("Generateur");
         JFrame photos = new JFrame("Personnages générés");
-        JPanel panel = new JPanel();  
+        JPanel panel = new JPanel();
+        JPanel affichephoto = new JPanel (); 
+        JPanel exportation = new JPanel();   
        
 
         JButton valider = new JButton("Valider");
@@ -41,6 +43,23 @@ class Generateur
        
         valider.setBounds(100,100,100,40);
         cliquer.setBounds(100,100,100,40);
+
+
+// Grille de persos 
+        JButton exporter = new JButton("Exporter grille de personnages") ; 
+
+        exporter.addActionListener(new ActionListener() {    
+
+                    public void actionPerformed(ActionEvent e) {
+                        
+                       
+                    }
+                });
+
+
+               
+
+            
 
 
         cliquer.addActionListener(new ActionListener() {    
@@ -120,7 +139,7 @@ class Generateur
                
                
                 panelsPersos[i].add(bouton);
-                photos.add(panelsPersos[i]);
+                affichephoto.add(panelsPersos[i]);
                
                 i=i+1;
 
@@ -139,8 +158,8 @@ class Generateur
 
        
 
-
-
+exportation.add(exporter) ; 
+        
         frame.add(nom);
         frame.add(img);
         frame.add(cliquer);
@@ -152,8 +171,8 @@ class Generateur
         panel.add(pilosites);
         panel.add(cheveux);
         panel.setVisible(false);
-
-
+photos.add(affichephoto) ; 
+photos.add(exportation); 
         frame.add(panel);
 
 
@@ -166,7 +185,7 @@ class Generateur
         frame.setVisible(true);
         photos.pack();
 
-
+photos.setLayout(new GridLayout(2,1)) ; 
         photos.setSize(600, 600);
         photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //photos.setUndecorated(true);
