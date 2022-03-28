@@ -3,6 +3,7 @@ import java.util.function.*;
 class Question {
   
     private Function <Personnage, Boolean> condition = perso -> true ; 
+  
     private static <T,U,V,W> Function<T,W> bind (Function<T,U> ftu,Function<T,V> ftv, BiFunction<U,V,W> fuvw){
       return (t -> fuvw.apply(ftu.apply(t),ftv.apply(t)));
 

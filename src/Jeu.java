@@ -7,9 +7,11 @@ import java.util.Random;
 public class Jeu {
     private static Random random = new Random();
     private static Jeu partie; 
+    public String fichierSauvegarde() {return "sauvegarde.json";}
+    
     private Personnage[] personnages;
     private Integer indicePersoChoisi;
-    private Jeu (){}
+    protected Jeu (){}
    
     private static final String dossierImages = "../"; 
     private static String serialiserPartie(){
@@ -25,7 +27,7 @@ public class Jeu {
     }
 
     public static void sauvegarder () throws IOException{
-        Files.deleteIfExists(Paths.get("sauvegarde.json"));
+        Files.deleteIfExists(Paths.get(partie.fichierSauvegarde()));
         Files.write(Paths.get("sauvegarde.json"),serialiserPartie().getBytes()); 
     }
     public static void testParsing(){
@@ -35,16 +37,16 @@ public class Jeu {
 	}
 }
     private static void parserPersonnages (){
+        partie = new Jeu();
         final Gson gson = new GsonBuilder().create();
         try {
             String json = OuvrirFichier.ouvrir("sauvegarde.json");
-            partie = gson.fromJson(json,Jeu.class);
+            partie = gson.fromJson(json,partie.getClass());
 
         }
         catch (IOException e1) {
             System.out.println("reprise de la partie sauvegardée échouée");
-            try {
-                partie = new Jeu(); 
+            try { 
                 String json = OuvrirFichier.ouvrir("../personnages.json");
                 partie.personnages = gson.fromJson(json,Personnage[].class);
                 }
