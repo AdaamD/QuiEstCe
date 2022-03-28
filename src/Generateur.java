@@ -62,24 +62,24 @@ class Generateur
         exporter.addActionListener(new ActionListener() {    
 
             public void actionPerformed(ActionEvent e) {
+                        
+                        if (persosCrees.size() >= 1) {
+                            Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
+                            String s = gson.toJson(ps,Personnage[].class);
+                            try {
+                            Files.deleteIfExists(Paths.get("persosCustom.json"));
+                            Files.write(Paths.get("persosCustom.json"),s.getBytes()); }
+                            catch (IOException ioe){
+                                System.err.println("erreur dans export de la grille");
+                                ioe.printStackTrace();
+                            }
 
-                if (persosCrees.size() == 16) {
-                    Personnage[] ps = (Personnage[]) persosCrees.toArray(); 
-                    String s = gson.toJson(ps);
-                    try {
-                        Files.deleteIfExists(Paths.get("../persosCustom.json"));
-                        Files.write(Paths.get("../persosCustom.json"),s.getBytes()); }
-                        catch (IOException ioe){
-                            System.err.println("erreur dans export de la grille");
-                            ioe.printStackTrace();
                         }
 
+                        
+                       
                     }
-
-
-
-                }
-            });
+                });
 
 
 
