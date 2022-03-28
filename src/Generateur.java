@@ -217,7 +217,7 @@ class Generateur
        
         photos.getContentPane().setBackground(Color.lightGray);
         photos.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-        //photos.setVisible(false);
+        
        
        
 
