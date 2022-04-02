@@ -53,14 +53,17 @@ public class Main
 	{ 	
 	// menus 
 		JMenuBar menu = new JMenuBar();						
-		JMenu file = new JMenu("Fichier");					
+		JMenu file = new JMenu("Fichier");		
+		JMenu mode = new JMenu("Modes de jeu");
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
 		JMenuItem newf = new JMenuItem("Nouveau");
 		JMenuItem load = new JMenuItem("Charger");
 		JMenuItem quit = new JMenuItem("Quitter");
+		JMenuItem deuxJ = new JMenuItem("2 Personnages");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
+		JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
 		JMenuItem jaune= new JMenuItem("Jaune");
 		JMenuItem rose= new JMenuItem("Rose");
@@ -68,12 +71,14 @@ public class Main
 		JMenuItem vert= new JMenuItem("Vert");
 		JMenuItem bleu= new JMenuItem("Bleu");
 
+		help.add(readme);
 		help.add(aide);
 		help.add(credit);
 		frame.add(menu);
 		file.add(newf);
 		file.add(load);
 		file.add(quit);
+		mode.add(deuxJ);
 		theme.add(coldefaut);
 		theme.add(jaune);
 		theme.add(orange);
@@ -92,10 +97,12 @@ public class Main
 				accueil.setVisible(true);
 			}
 			});
+
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
 		menu.add(file);
+		menu.add(mode);
 		menu.add(theme);
 		menu.add(help);
 
@@ -233,7 +240,8 @@ public class Main
 			frame.dispose();
 			accueil.dispose();
 			try {
-			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
+			Process processus2 = Runtime.getRuntime().exec("rm -f sauvegarde.json");
 			
 			StringBuilder resultat = new StringBuilder(); 
 			
@@ -246,7 +254,8 @@ public class Main
 			}
 			
 			int valeurDeSortie = processus.waitFor();
-			if (valeurDeSortie == 0) {
+			int valeurDeSortie2 = processus.waitFor();
+			if (valeurDeSortie == 0 && valeurDeSortie2==0) {
 				System.out.println("Success!");
 				System.out.println(resultat); 
 				System.exit(0);
@@ -259,9 +268,61 @@ public class Main
 		} catch (InterruptedException t) {
 			t.printStackTrace();
 		}
+			;});
+
+		deuxJ.addActionListener(e ->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+			Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . DeuxJ.java"); 
+			Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ");
 			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+			
+			String ligne;
+			
+			while ((ligne = lecteur.readLine()) != null) {
+				resultat.append(ligne + "\n"); 
+			}
+			
+			int valeurDeSortie = processus.waitFor();
+			int valeurDeSortie2 = processus2.waitFor();
+			if (valeurDeSortie == 0 && valeurDeSortie2== 0) {
+				System.out.println("Success!");
+				System.out.println(resultat); 
+				System.exit(0);
+			} else {
+				System.out.println("Quelquechose de pas normal s'est produit :( "); 
+			}
+				
+		} catch (IOException t) {
+			t.printStackTrace();
+		} catch (InterruptedException t) {
+			t.printStackTrace();
+		}
+			;});
+
+		readme.addActionListener(e ->{
+			try {
+			Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
+			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+					
+		} catch (IOException t) {
+			t.printStackTrace();
+		} 
 
 			;});
+
+
+
+
+
+
 
 		//charger une partie
 		load.addActionListener(e->{
