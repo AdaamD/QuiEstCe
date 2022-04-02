@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;  
+import java.awt.event.*;
+import java.io.IOException;  
 import java.util.Random;
 import java.util.function.Function;
 import java.io.BufferedReader;
@@ -55,13 +56,15 @@ public class DeuxJ
 	{ 	
 	// menus 
 		JMenuBar menu = new JMenuBar();						
-		JMenu file = new JMenu("Fichier");					
+		JMenu file = new JMenu("Fichier");	
+		JMenu mode = new JMenu("Modes de jeu");				
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
 		JMenuItem newf = new JMenuItem("Nouveau");
 		JMenuItem load = new JMenuItem("Charger");
 		JMenuItem quit = new JMenuItem("Quitter");
 		JMenuItem aide = new JMenuItem("Aide");
+		JMenuItem soloJ = new JMenuItem("1 Personnage");
 		JMenuItem credit = new JMenuItem("Credits");
 		JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
@@ -78,6 +81,7 @@ public class DeuxJ
 		file.add(newf);
 		file.add(load);
 		file.add(quit);
+		mode.add(soloJ);
 		theme.add(coldefaut);
 		theme.add(jaune);
 		theme.add(orange);
@@ -89,6 +93,7 @@ public class DeuxJ
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
 		menu.add(file);
+		menu.add(mode);
 		menu.add(theme);
 		menu.add(help);
 
@@ -288,6 +293,40 @@ JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 		}
 			
 
+			;});
+
+		soloJ.addActionListener(e ->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+			Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . Main.java"); 
+			Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
+			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+			
+			String ligne;
+			
+			while ((ligne = lecteur.readLine()) != null) {
+				resultat.append(ligne + "\n"); 
+			}
+			
+			int valeurDeSortie = processus.waitFor();
+			int valeurDeSortie2 = processus2.waitFor();
+			if (valeurDeSortie == 0 && valeurDeSortie2 == 0) {
+				System.out.println("Success!");
+				System.out.println(resultat); 
+				System.exit(0);
+			} else {
+				System.out.println("Quelquechose de pas normal s'est produit :( "); 
+			}
+				
+		} catch (IOException t) {
+			t.printStackTrace();
+		} catch (InterruptedException t) {
+			t.printStackTrace();
+		}
 			;});
 
 
