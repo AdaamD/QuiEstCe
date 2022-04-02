@@ -144,6 +144,7 @@ class Generateur
                 nom.setVisible(true);
                 img.setVisible(false);
                 cliquer.setVisible(true);
+                exporter.setVisible(true);
                 panel.remove(valider);
                 photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
