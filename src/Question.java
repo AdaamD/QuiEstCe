@@ -24,7 +24,7 @@ class Question {
     /*private Question(Function<Personnage,Boolean> lambdaCond){
         and(lambdaCond);
     }*/
-    public boolean surPersonnage (Personnage personnageChoisi){
+    public boolean surPersonnage(Personnage personnageChoisi){
         return condition.apply(personnageChoisi);
 
     }

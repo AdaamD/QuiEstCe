@@ -9,7 +9,7 @@ public class Jeu {
     private static Jeu partie; 
     public String fichierSauvegarde() {return "sauvegarde.json";}
     
-    private Personnage[] personnages;
+    private PersoGenerique[] personnages;
     private Integer indicePersoChoisi;
     protected Jeu (){}
    
@@ -19,7 +19,7 @@ public class Jeu {
         return gson.toJson(partie);
     }
     
-    public static Personnage personnageChoisi(){
+    public static PersoGenerique personnageChoisi(){
         if (partie.indicePersoChoisi == null) 
 		 partie.indicePersoChoisi = random.nextInt (partie.personnages.length);
          return partie.personnages[partie.indicePersoChoisi]; 
@@ -28,7 +28,7 @@ public class Jeu {
     public static void nouvellePartie(boolean custom) {
         final Gson gson = new GsonBuilder().create();
         try { 
-            String json = OuvrirFichier.ouvrir(custom ? "persosCustom.json":"../personnages.json");
+            String json = OuvrirFichier.lire(custom ? "persosCustom.json":"../personnages.json");
             partie.personnages = gson.fromJson(json,Personnage[].class);
             }
             catch (IOException e){
@@ -56,7 +56,7 @@ public class Jeu {
         final Gson gson = new GsonBuilder().create();
         
         try {
-            String json = OuvrirFichier.ouvrir("sauvegarde.json");
+            String json = OuvrirFichier.lire("sauvegarde.json");
             partie = gson.fromJson(json,partie.getClass());
 
         }
@@ -66,7 +66,7 @@ public class Jeu {
         }}
 
     }
-    public static Personnage[] getPersonnages (boolean custom, boolean nouvelle){
+    public static PersoGenerique[] getPersonnages (boolean custom, boolean nouvelle){
         if (partie == null) {
             parserPersonnages(custom,nouvelle);
 

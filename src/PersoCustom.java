@@ -4,6 +4,7 @@ import com.google.gson.*;
 
 public class PersoCustom implements PersoGenerique {
     private JsonObject attributs;
+    private boolean coche;
     public static PersoCustom[] lireJson(String cheminFichier)throws IOException{
         String json = OuvrirFichier.lire(cheminFichier);
         Gson gson = new Gson();
@@ -31,12 +32,25 @@ public class PersoCustom implements PersoGenerique {
     public String valeurAttribut(String cle){
         return attributs.get(cle).toString();
     }
+    public String getPhoto(){
+        return valeurAttribut("image"); 
+    }
+    public String getNom(){
+        return valeurAttribut("nom"); 
+    }
     public void setAttributs (JsonObject attributsJson){
         attributs = attributsJson;
 
     }
     public PersoCustom(JsonObject attributsJson){
         attributs = attributsJson; 
+    }
+    public boolean cocherOuDecocher(){
+        return coche = ! coche; 
+
+    }
+    public boolean estCoche(){
+        return coche; 
     }
     
 }

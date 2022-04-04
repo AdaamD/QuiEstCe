@@ -106,13 +106,13 @@ public class Main
 		reponseNon.setVisible(false); 
 		reponse.add(choisissez);
 		JPanel validation = new JPanel();
-		Personnage[] personnages = Jeu.getPersonnages(
+		PersoGenerique[] personnages = Jeu.getPersonnages(
 			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
 		);
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = Jeu.personnageChoisi();
+		PersoGenerique persoChoisi = Jeu.personnageChoisi();
 		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
 		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
 		frame.setLayout(new GridLayout(8,1));
@@ -135,7 +135,7 @@ public class Main
 		assignerQuestion(pilosites, p -> p== persoChoisi.getPilosite());
 		JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
 		assignerQuestion(cheveux, c -> c== persoChoisi.getCheveux());
-		JComboBox<Personnage> labelPersos = new JComboBox<>(personnages);
+		JComboBox<PersoGenerique> labelPersos = new JComboBox<>(personnages);
 //Fonction recherche nom 
 		labelPersos.addActionListener(new ActionListener() {     
 		//	@Override

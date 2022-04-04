@@ -1,4 +1,35 @@
 
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@pauloud
+pauloud /
+QuiEstCe
+Public
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+QuiEstCe/src/Generateur.java /
+@besteeven
+besteeven Update Generateur.java
+Latest commit a9d802a 37 minutes ago
+History
+2 contributors
+@besteeven
+@pauloud
+206 lines (142 sloc) 6.61 KB
+
 import javax.swing.*;
 
 import com.google.gson.Gson;
@@ -17,7 +48,7 @@ import java.util.ArrayList;
 
 class Generateur
 {
-    private static ArrayList<PersoGenerique> persosCrees; 
+    private static ArrayList<Personnage> persosCrees; 
     private static final Gson gson = new GsonBuilder().create();
     private static <E> void assignerQuestion(JComboBox<E> box){
         box.addActionListener(new ActionListener() {    
@@ -62,24 +93,24 @@ class Generateur
         exporter.addActionListener(new ActionListener() {    
 
             public void actionPerformed(ActionEvent e) {
-                        
-                        if (persosCrees.size() >= 1) {
-                            PersoGenerique[] ps =  persosCrees.toArray(new Personnage[0]); 
-                            String s = gson.toJson(ps,Personnage[].class);
-                            try {
-                            Files.deleteIfExists(Paths.get("persosCustom.json"));
-                            Files.write(Paths.get("persosCustom.json"),s.getBytes()); }
-                            catch (IOException ioe){
-                                System.err.println("erreur dans export de la grille");
-                                ioe.printStackTrace();
-                            }
 
+                if (persosCrees.size() == 16) {
+                    Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
+                    String s = gson.toJson(ps);
+                    try {
+                        Files.deleteIfExists(Paths.get("../persosCustom.json"));
+                        Files.write(Paths.get("../persosCustom.json"),s.getBytes()); }
+                        catch (IOException ioe){
+                            System.err.println("erreur dans export de la grille");
+                            ioe.printStackTrace();
                         }
 
-                        
-                       
                     }
-                });
+
+
+
+                }
+            });
 
 
 
@@ -144,7 +175,6 @@ class Generateur
                 nom.setVisible(true);
                 img.setVisible(false);
                 cliquer.setVisible(true);
-                exporter.setVisible(true);
                 panel.remove(valider);
                 photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -205,3 +235,4 @@ class Generateur
 
     }
 }
+

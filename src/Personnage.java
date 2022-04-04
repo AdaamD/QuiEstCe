@@ -1,4 +1,6 @@
-public  class  Personnage  { 
+import com.google.gson.JsonObject;
+
+public  class  Personnage implements PersoGenerique  { 
 
 	private   Sport  sport ;  //  collectif ou individuel 
 	private   Age age ;    //  moins de 25 entre 25 et 40 plus de 40 
@@ -20,7 +22,7 @@ public  class  Personnage  {
 		this.couleurCheveux = couleurCheveux ; 
 		this.genre = genre ; 
 		this.cheveux = cheveux ; 
-		this.pilosite = pilosite  ; 
+		this.pilosite = pilosite  ;
 	}
 	public  Personnage ( Sport sport , Age age , Nationalite  nationalite ,CouleurCheveux  couleurCheveux  , Genre  genre , Cheveux  cheveux, Pilosite  pilosite
 	, String nom, String image ){ 
@@ -89,6 +91,21 @@ public  class  Personnage  {
 	}
 	public boolean estCoche(){
 		return coche; 
+	}
+	@Override
+	public String[] clesAttributs() {
+		
+		return new String[]{Sport.label,Age.label,Nationalite.label,Pilosite.label,Cheveux.label,CouleurCheveux.label};
+	}
+	@Override
+	public String valeurAttribut(String attribut) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setAttributs(JsonObject attributs) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
