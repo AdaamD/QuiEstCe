@@ -29,7 +29,7 @@ public class Jeu {
         final Gson gson = new GsonBuilder().create();
         try { 
             String json = OuvrirFichier.lire(custom ? "persosCustom.json":"../personnages.json");
-            partie.personnages = gson.fromJson(json,Personnage[].class);
+            partie.personnages = gson.fromJson(json,PersoGenerique[].class);
             }
             catch (IOException e){
                 System.err.println("erreur dans ouvertures du fichier personnages.json"); 
@@ -56,8 +56,7 @@ public class Jeu {
         final Gson gson = new GsonBuilder().create();
         
         try {
-            String json = OuvrirFichier.lire("sauvegarde.json");
-            partie = gson.fromJson(json,partie.getClass());
+            partie.personnages = PersoCustom.lireJson("sauvegarde.json");
 
         }
         catch (IOException e1) {

@@ -52,5 +52,8 @@ public class PersoCustom implements PersoGenerique {
     public boolean estCoche(){
         return coche; 
     }
+    public PersoCustom toPersoCustom(){
+        return this; 
+    }
     
 }
