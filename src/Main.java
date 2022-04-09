@@ -17,14 +17,14 @@ public class Main
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
 		private static  JPanel[] panelsPersos; 
 		private static final JFrame frame = Cadres.cadre(panelsPersos); 
-		private static void repondreOui(){
+		public static void repondreOui(){
 			System.out.println("oui");
 			reponseOui.setVisible(true);
 			reponseNon.setVisible(false);
 			choisissez.setVisible(false);
 			frame.repaint();
 		}
-		private static void repondreNon(){
+		public static void repondreNon(){
 			System.out.println("non");
 			reponseNon.setVisible(true);
 			reponseOui.setVisible(false);
