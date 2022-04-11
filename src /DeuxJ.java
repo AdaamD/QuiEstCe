@@ -1,21 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;  
-import java.util.Random;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.function.Function;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
+
 
 public class DeuxJ 
 
 {
-		private static final JFrame frame = new JFrame("Qui est ce ??");
-		private static final JFrame accueil = new JFrame("Accueil");
+		
+		private static final JFrame accueil = Cadres.accueil();
 		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
 		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
 		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+		private static  JPanel[] panelsPersos; 
+		private static final JFrame frame = Cadres.cadre(panelsPersos); 
 		private static void repondreOui(){
 			System.out.println("oui");
 			reponseOui.setVisible(true);
@@ -45,28 +48,24 @@ public class DeuxJ
 					} 
 				});
 		}
-    // Fonction choix d'un nb aléatoire
+// Fonction choix d'un nb aléatoire
 	public static  int Choixalea(int nbPersos){
 		Random random = new Random();
 		int nb_Alea = random.nextInt(nbPersos);
 		return nb_Alea;
 	}
-
 	public static void main(String[] args) 
 	{ 	
 	// menus 
 		JMenuBar menu = new JMenuBar();						
-		JMenu file = new JMenu("Fichier");	
-		JMenu mode = new JMenu("Modes de jeu");				
+		JMenu file = new JMenu("Fichier");					
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
-		JMenuItem newf = new JMenuItem("Nouveau");
-		JMenuItem load = new JMenuItem("Charger");
-		JMenuItem quit = new JMenuItem("Quitter");
+		JMenuItem newf = new JMenuItem("Redemarrer");
+		JMenuItem load = new JMenuItem("Option Inutile");
+		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem aide = new JMenuItem("Aide");
-		JMenuItem soloJ = new JMenuItem("1 Personnage");
 		JMenuItem credit = new JMenuItem("Credits");
-		JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
 		JMenuItem jaune= new JMenuItem("Jaune");
 		JMenuItem rose= new JMenuItem("Rose");
@@ -74,26 +73,34 @@ public class DeuxJ
 		JMenuItem vert= new JMenuItem("Vert");
 		JMenuItem bleu= new JMenuItem("Bleu");
 
-		help.add(readme);
 		help.add(aide);
 		help.add(credit);
 		frame.add(menu);
 		file.add(newf);
 		file.add(load);
 		file.add(quit);
-		mode.add(soloJ);
 		theme.add(coldefaut);
 		theme.add(jaune);
 		theme.add(orange);
 		theme.add(rose);
 		theme.add(vert);
 		theme.add(bleu);
-		quit.addActionListener(e -> { frame.setVisible(false); accueil.setVisible(true);});
+		quit.addActionListener(e -> { 
+			try{
+				Jeu.sauvegarder();
+			}
+			catch (IOException ex){
+				System.err.println("echec de sauvegarde");
+			}
+			finally {
+				frame.setVisible(false); 
+				accueil.setVisible(true);
+			}
+			});
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
 		menu.add(file);
-		menu.add(mode);
 		menu.add(theme);
 		menu.add(help);
 
@@ -104,44 +111,29 @@ public class DeuxJ
 		reponse.add(reponseNon);
 		reponseNon.setVisible(false); 
 		reponse.add(choisissez);
-
 		JPanel validation = new JPanel();
-		Personnage[] personnages = Jeu.getPersonnages();
+		Personnage[] personnages = Jeu.getPersonnages(
+			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
+		);
+		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
-
- Personnage persoChoisi1 = personnages[Choixalea(personnages.length)];
+		//frame.add(label);
+		Personnage persoChoisi1 = personnages[Choixalea(personnages.length)];
  Personnage persoChoisiEphemere = personnages[Choixalea(personnages.length)];
  Personnage persoChoisi3 = personnages[Choixalea(personnages.length)];
 
- 
- if (persoChoisi1.equals(persoChoisiEphemere)) { persoChoisiEphemere =persoChoisi3 ; } 
- 
- Personnage persoChoisi2= persoChoisiEphemere ; 
+         if (persoChoisi1.equals(persoChoisiEphemere)) { persoChoisiEphemere =persoChoisi3 ; } 
 
+    Personnage persoChoisi2= persoChoisiEphemere ; 
 
- 		JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
-		for (int i = 0 ; i< panelsPersos.length; i++) {
+		System.out.println("les personnages choisis sont: " + persoChoisi1.getNom() +" et "+persoChoisi2.getNom());
+		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
+		frame.setLayout(new GridLayout(8,1));
+		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
-	
-//Creation des ICON de personnages 
-ImageIcon croix= new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg")).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-		for (int i = 0; i<personnages.length;i++){
-			JButton bouton = new JButton(new ImageIcon
-				(new ImageIcon(Jeu.getImage(personnages[i].getPhoto())).getImage()
-				.getScaledInstance(200,200,Image.SCALE_DEFAULT))); 
-			bouton.setBounds(40,80,200,250);
-			
-			panelsPersos[i/4].add(bouton); 
-			bouton.addActionListener(new ActionListener() {     
 
-				public void actionPerformed(ActionEvent e) {
-					bouton.setIcon(croix);				
-				} 
-			}); 
-		}
-	
-		frame.setLayout(new GridLayout(8,1));
+		
 JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
  assignerQuestion(nationalites, n ->( n == persoChoisi1.getNationalite() || n ==persoChoisi2.getNationalite() )) ;
 
@@ -165,39 +157,37 @@ JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 
 		JComboBox<Personnage> labelPersos = new JComboBox<>(personnages);
 
-
-	//Fonction recherche nom 
- labelPersos.addActionListener(new ActionListener() { 
- // @Override
- public void actionPerformed(ActionEvent e) {
+//Fonction recherche nom 
+		labelPersos.addActionListener(new ActionListener() {     
+		//	@Override
+			public void actionPerformed(ActionEvent e) {
 
  if(labelPersos.getSelectedItem()== persoChoisi1 || labelPersos.getSelectedItem() ==persoChoisi2)
- { 
- System.out.println("oui");
- choisissez.setVisible(false);
- reponseOui.setVisible(true);
- reponseNon.setVisible(false);
- frame.repaint();
- JOptionPane.showMessageDialog(null , "Félicitation vous avez trouvé le personnage !!");
- 
- } 
- else {
- System.out.println("non");
- choisissez.setVisible(false);
- reponseNon.setVisible(true);
- reponseOui.setVisible(false);
- frame.repaint();
- JOptionPane.showMessageDialog(null , "Dommage, veuillez recommencer ");
- }
+				{   
+					System.out.println("oui");
+					choisissez.setVisible(false);
+					reponseOui.setVisible(true);
+					reponseNon.setVisible(false);
+					frame.repaint();
+					JOptionPane.showMessageDialog(null , "Félicitation vous avez trouvé le personnage !!");
+					
+				} 
+				else {
+					System.out.println("non");
+					choisissez.setVisible(false);
+					reponseNon.setVisible(true);
+					reponseOui.setVisible(false);
+					frame.repaint();
+					JOptionPane.showMessageDialog(null , "Dommage, veuillez recommencer ");
+				}
 
 
- } 
- });
+			} 
+		});
 
 		// changer l'icone de l'interface
-		Image icone = Toolkit.getDefaultToolkit().getImage(Jeu.getImage("anneaux.png"));
-		frame.setIconImage(icone);
-		accueil.setIconImage(icone);
+		
+		
 
 		//définition des différents thèmes
 		coldefaut.addActionListener(e ->{
@@ -265,7 +255,7 @@ JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 			frame.dispose();
 			accueil.dispose();
 			try {
-			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ"); 
 			
 			StringBuilder resultat = new StringBuilder(); 
 			
@@ -295,55 +285,6 @@ JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
 
 			;});
 
-		soloJ.addActionListener(e ->{
-			frame.dispose();
-			accueil.dispose();
-			try {
-			Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . Main.java"); 
-			Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
-			
-			StringBuilder resultat = new StringBuilder(); 
-			
-			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
-			
-			String ligne;
-			
-			while ((ligne = lecteur.readLine()) != null) {
-				resultat.append(ligne + "\n"); 
-			}
-			
-			int valeurDeSortie = processus.waitFor();
-			int valeurDeSortie2 = processus2.waitFor();
-			if (valeurDeSortie == 0 && valeurDeSortie2 == 0) {
-				System.out.println("Success!");
-				System.out.println(resultat); 
-				System.exit(0);
-			} else {
-				System.out.println("Quelquechose de pas normal s'est produit :( "); 
-			}
-				
-		} catch (IOException t) {
-			t.printStackTrace();
-		} catch (InterruptedException t) {
-			t.printStackTrace();
-		}
-			;});
-
-
-readme.addActionListener(e ->{
-			try {
-			Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
-			
-			StringBuilder resultat = new StringBuilder(); 
-			
-			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
-					
-		} catch (IOException t) {
-			t.printStackTrace();
-		} 
-
-			;});
-
 		//charger une partie
 		load.addActionListener(e->{
 
@@ -352,10 +293,11 @@ readme.addActionListener(e ->{
 
 
 
-		
+			
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
+		
 		question.add(nationalites);
 		question.add(sports);
 		question.add(ages);
@@ -365,7 +307,7 @@ readme.addActionListener(e ->{
 		question.add(cheveux);
 		validation.add(labelPersos);
 		frame.pack();
-		frame.setSize(1000, 1000);
+		frame.setSize(1500, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.lightGray);
 		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
