@@ -1,207 +1,261 @@
 
 import javax.swing.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.awt.*;
-import java.awt.event.*;  
+import java.awt.event.*; 
 import java.util.Random;
 import java.util.function.Function;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-class Generateur
+public class Generateur
 {
-    private static ArrayList<Personnage> persosCrees; 
-    private static final Gson gson = new GsonBuilder().create();
-    private static <E> void assignerQuestion(JComboBox<E> box){
-        box.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
 
-                System.out.println(box.getSelectedItem()) ;
+	private static <E> void assignerQuestion(JComboBox<E> box){
+		box.addActionListener(new ActionListener() { 
+ // @Override
+			public void actionPerformed(ActionEvent e) {
 
-
-            }
-        });
-    }
-
-    
-
-    public static void main(String args[])
-    {
+				System.out.println(box.getSelectedItem()) ;
 
 
-        JFrame frame = new JFrame("Generateur");
-        JFrame photos = new JFrame("Personnages générés");
-        JPanel panel = new JPanel();
-        
-        
-
-
-        JButton valider = new JButton("Valider");
-        JButton cliquer = new JButton("creer");
-        JButton exporter = new JButton("Exporter grille de personnages") ; 
-        JTextField nom = new JTextField("entrez le nom "); nom.setBounds(20,40,200,28);
-        JTextField img = new JTextField("entrez le lien de l'image "); img.setBounds(20,40,200,28); img.setVisible(false);
-
-        valider.setBounds(100,100,100,40);
-        cliquer.setBounds(100,100,100,40);    
-        exporter.setBounds(100,200,500,40);
-
-
-        frame.add(nom);
-        frame.add(img);
-        frame.add(cliquer);
-        frame.add(exporter); 
-        exporter.addActionListener(new ActionListener() {    
-
-            public void actionPerformed(ActionEvent e) {
-                        
-                        if (persosCrees.size() >= 1) {
-                            Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
-                            String s = gson.toJson(ps,Personnage[].class);
-                            try {
-                            Files.deleteIfExists(Paths.get("persosCustom.json"));
-                            Files.write(Paths.get("persosCustom.json"),s.getBytes()); }
-                            catch (IOException ioe){
-                                System.err.println("erreur dans export de la grille");
-                                ioe.printStackTrace();
-                            }
-
-                        }
-
-                        
-                       
-                    }
-                });
+			}
+		});
+	}
 
 
 
+	int li=0;
+	public void remplir(String [][] tab,String j,String k,String l,String m,String n,String o,String p,String q,String r,String s){
+		tab[li][0]=j;
+		tab[li][1]=k;
+		tab[li][2]=l;
+		tab[li][3]=m;
+		tab[li][4]=n;
+		tab[li][5]=o;
+		tab[li][6]=p;
+		tab[li][7]=q;
+		tab[li][8]=r;
+		tab[li][9]=s;
+		li++;
+
+	}
+
+	public void boutonOption ( String attribut , String [] valeurs ){ 
+
+
+	} 
+
+	public static void main(String args[])
+	{
+
+		JFrame frame = new JFrame("Generateur");
+		JFrame accueil = new JFrame("Generateur");
+		JFrame creation= new JFrame("Generateur");
+		JPanel panel = new JPanel();
+		JPanel panelattr = new JPanel();
+		JPanel panelcre1= new JPanel();
+		JPanel panelcre2=new JPanel();
+
+
+//nb d'attributs
+		JButton attr= new JButton ("valider");
+		JLabel labatt = new JLabel("choisir le nombre d'attributs");
+		SpinnerModel model = new SpinnerNumberModel(5,0,10,1);
+		JSpinner nbAtt=new JSpinner(model);             
+		nbAtt.setBounds(500,30,50,30);
+
+		System.out.println("nb attribut: " + ((int)nbAtt.getValue()+1-1));
 
 
 
+		//sélectionner les attributs des persos
+		JTextField nomPerso= new JTextField("saisir le nom ici");nomPerso.setBounds(10,30,150,30);
 
-        cliquer.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
-
-                panel.setVisible(true);
-                nom.setVisible(false);
-                img.setVisible(true);
-                cliquer.setVisible(false);
-                exporter.setVisible(false);
-                panel.add(valider);                  
-            }
-        });
-
-
-        JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
-        //assignerQuestion(nationalites);
-        JComboBox<Sport> sports= new JComboBox<>(Sport.values());
-        //assignerQuestion(sports);
-        JComboBox<Age> ages = new JComboBox<>(Age.values());
-        //assignerQuestion(ages);
-        JComboBox<Genre> genres = new JComboBox<>(Genre.values());
-        //assignerQuestion(genres);
-        JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
-        //assignerQuestion(couleurs);
-        JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
-        //assignerQuestion(pilosites);
-        JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
-        //assignerQuestion(cheveux);
-
-        JPanel[] panelsPersos = {new JPanel()};
-
-
-        valider.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Sport    var1 =(Sport) sports.getSelectedItem();
-                Age var2 =(Age) ages.getSelectedItem();
-                Nationalite var3= (Nationalite ) nationalites.getSelectedItem();
-                CouleurCheveux var4=    (CouleurCheveux) couleurs.getSelectedItem();
-                Genre var5=(Genre) genres.getSelectedItem();
-                Cheveux var6=(Cheveux) cheveux.getSelectedItem();
-                Pilosite var7=(Pilosite) pilosites.getSelectedItem();
-                String nomecrit = nom.getText();
-                String image = img.getText();
-                Personnage TEST  = new Personnage (var1, var2, var3 , var4,var5 , var6, var7 , nomecrit , image);
-
-                System.out.println (TEST.toStringGen());
-                int i=0;
-
-                photos.setVisible(true);
-                photos.setVisible(false); photos.setVisible(true);
-                frame.setVisible(true);
-                panel.setVisible(false);
-                nom.setVisible(true);
-                img.setVisible(false);
-                cliquer.setVisible(true);
-                exporter.setVisible(true);
-                panel.remove(valider);
-                photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		JButton create= new JButton("créer");
 
 
 
-                JButton bouton = new JButton(new ImageIcon(new ImageIcon(Jeu.getImage(TEST.getPhoto())).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT)));
-
-
-                panelsPersos[i].add(bouton);
-                photos.add(panelsPersos[i]);
-
-                i=i+1;
-
-                bouton.addActionListener(new ActionListener() {    
-
-                    public void actionPerformed(ActionEvent e) {
-                        JOptionPane.showMessageDialog(null,"Nom:"+nomecrit+"\nSport: "+var1+"\nAge: "+var2+"\nNationalité: "+var3+"\nCouleur de cheveux: "+var4+"\nGenre: "+var5+"\nCheveux: "+var6+"\nPilosité: "+var7,nomecrit,JOptionPane.INFORMATION_MESSAGE);
-
-                    }
-                });
-            }}); 
-
-        exporter.setVisible(true);
-        panel.add(nationalites);
-        panel.add(sports);
-        panel.add(ages);
-        panel.add(genres);
-        panel.add(couleurs);
-        panel.add(pilosites);
-        panel.add(cheveux);
-        panel.setVisible(false);
-
-
-        frame.add(panel);
-
-
-
-        frame.pack();
-        frame.setSize(1000, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setBackground(Color.lightGray);
-        frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-        frame.setVisible(true);
-
-        photos.pack();
-        photos.setSize(1200,1200);
-        photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        //photos.setUndecorated(true);
-        photos.setVisible(false);
-
-        photos.getContentPane().setBackground(Color.lightGray);
-        photos.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-        
+		JTextField attribut = new JTextField("entrez l'attribut ");
+		attribut.setBounds(10,30,150,30);
+		JTextField valeurs1 = new JTextField("entrez les valeurs");
+		valeurs1.setBounds(200,60,150,30);
+		JTextField valeurs2 = new JTextField("");
+		valeurs2.setBounds(200,90,150,30);
+		JTextField valeurs3 = new JTextField("");
+		valeurs3.setBounds(200,120,150,30);
+		JTextField valeurs4 = new JTextField("");
+		valeurs4.setBounds(200,150,150,30);
+		JTextField valeurs5 = new JTextField("");
+		valeurs5.setBounds(200,180,150,30);
+		JTextField valeurs6 = new JTextField("");
+		valeurs6.setBounds(200,210,150,30);
+		JTextField valeurs7 = new JTextField("");
+		valeurs7.setBounds(200,240,150,30);
+		JTextField valeurs8 = new JTextField("");
+		valeurs8.setBounds(200,270,150,30);
+		JTextField valeurs9 = new JTextField("");
+		valeurs9.setBounds(200,300,150,30);
+		JTextField valeurs10 = new JTextField("");
+		valeurs10.setBounds(200,330,150,30); 
 
 
 
 
-    }
+		String val[] =new String [10]; 
+
+
+		JButton creer = new JButton("creer");
+		int compteur=0;
+		int[] cpt={compteur};
+		int taille=(int) nbAtt.getValue();
+
+
+
+
+
+
+
+//bouton créer
+
+		String z[][]= new String[taille][10];
+		String personnage[][]= new String[16][taille];
+
+
+
+		attr.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				accueil.setVisible(false);
+				frame.setVisible(true);
+			}
+		});
+
+
+		ArrayList<String> listAtt= new ArrayList<String>();
+		ArrayList <JComboBox> joke= new ArrayList<JComboBox>();
+
+		creer.addActionListener(new ActionListener() { 
+ // @Override
+			public void actionPerformed(ActionEvent e) {
+
+
+ //System.out.println(jet);
+				String x=attribut.getText(); 
+				listAtt.add(x);
+
+
+
+
+				String j=valeurs1.getText();
+				String k =valeurs2.getText(); 
+				String l= valeurs3.getText() ;
+				String m = valeurs4.getText() ; 
+				String n= valeurs5.getText() ;
+				String o  =valeurs6.getText() ; 
+				String p = valeurs7.getText(); 
+				String q= valeurs8.getText() ;
+				String r =valeurs9.getText() ;
+				String s= valeurs10.getText() ; 
+
+				Jeu.remplir(z,j,k,l,m,n,o,p,q,r,s);
+
+				for (int att=0; att<z.length;att++){
+					for (int par=0;par<10;par++){
+						//System.out.println(z.length);
+						System.out.println(z[att][par]);
+					}
+					
+				}
+				String s1[]={j,k,l,m,n,o,p,q,r,s};
+				JComboBox<String> bobox= new JComboBox<String> (s1);
+				panelcre1.add(bobox);
+				joke.add(bobox);
+
+
+				if (z[4][0]!=null){creation.setVisible(true);frame.setVisible(false);}
+
+
+			}
+		});
+
+
+		
+
+		create.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				personnage[0][0]=nomPerso.getText();
+				System.out.println(personnage[0][0]);
+				for (int aa=0;aa<=joke.size();aa++){					
+					System.out.println(joke.get(aa).getSelectedItem());
+					personnage[0][aa]=(String)joke.get(aa).getSelectedItem();
+					System.out.println(personnage[0][aa]);
+				}
+				
+
+			System.out.println(" nom: "+personnage[0][0]+"\n"+listAtt.get(0)+" : "+personnage[0][1]+listAtt.get(1)+" : "+personnage[0][2]
+			+listAtt.get(2)+" : "+personnage[0][3]
+			+listAtt.get(3)+" : "+personnage[0][4]);
+
+			}
+		});
+
+		
+
+
+
+		frame.add(attribut) ; 
+		frame.add(valeurs1) ; 
+		frame.add(valeurs2) ;
+		frame.add(valeurs3) ;
+		frame.add(valeurs4) ;
+		frame.add(valeurs5) ;
+		frame.add(valeurs6) ;
+		frame.add(valeurs7) ;
+		frame.add(valeurs8) ;
+		frame.add(valeurs9) ;
+		frame.add(valeurs10) ; 
+		panel.add(creer) ;
+		frame.add(panel) ;
+
+		accueil.add(panelattr);
+		panelattr.add(labatt);
+		panelattr.add(nbAtt);
+		panelattr.add(attr);
+
+		creation.add(panelcre1);
+		creation.add(panelcre2);
+		panelcre1.add(nomPerso);
+		panelcre2.add(create);
+
+
+
+		accueil.pack();
+		accueil.setSize(500, 200);
+		accueil.setLocationRelativeTo(null);
+		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		accueil.getContentPane().setBackground(Color.lightGray);
+		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+		accueil.setVisible(true);
+
+		frame.pack();
+		frame.setSize(1000, 500);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(Color.lightGray);
+		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+		frame.setVisible(false);
+
+		creation.pack();
+		creation.setSize(1000, 500);
+		creation.setLocationRelativeTo(null);
+		creation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		creation.getContentPane().setBackground(Color.lightGray);
+		creation.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+		creation.setVisible(false);
+		creation.setLayout(new GridLayout(2,1)) ;
+
+
+	}
 }
