@@ -26,6 +26,14 @@ public class Personnage{
         }
        
     }
+    public Personnage(String[]cles,String[] valeurs){
+        JsonObject json = new JsonObject();
+        for (int i = 0; i < cles.length; i++){
+            json.addProperty(cles[i],valeurs[i]);
+        
+        }
+        attributs = json; 
+    }
     public String[]  clesAttributs(){
         return attributs.keySet().toArray(new String[0]);
     }
