@@ -66,6 +66,7 @@ public class DeuxJCmplx
 		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
+        JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
 		JMenuItem jaune= new JMenuItem("Jaune");
 		JMenuItem rose= new JMenuItem("Rose");
@@ -73,6 +74,7 @@ public class DeuxJCmplx
 		JMenuItem vert= new JMenuItem("Vert");
 		JMenuItem bleu= new JMenuItem("Bleu");
 
+      	help.add(readme);
 		help.add(aide);
 		help.add(credit);
 		frame.add(menu);
@@ -379,6 +381,22 @@ if(connecteur.getSelectedItem() == "!") {
 			
 
 			;});
+
+
+readme.addActionListener(e ->{
+			try {
+			Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
+			
+			StringBuilder resultat = new StringBuilder(); 
+			
+			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+					
+		} catch (IOException t) {
+			t.printStackTrace();
+		} 
+
+			;});
+
 
 		//charger une partie
 		load.addActionListener(e->{

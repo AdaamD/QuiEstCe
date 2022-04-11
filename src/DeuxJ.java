@@ -6,8 +6,10 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Random;
 
-public class Main 
+
+public class DeuxJ 
 
 {
 		
@@ -46,8 +48,12 @@ public class Main
 					} 
 				});
 		}
-    // Fonction choix d'un nb aléatoire
-
+// Fonction choix d'un nb aléatoire
+	public static  int Choixalea(int nbPersos){
+		Random random = new Random();
+		int nb_Alea = random.nextInt(nbPersos);
+		return nb_Alea;
+	}
 	public static void main(String[] args) 
 	{ 	
 	// menus 
@@ -60,7 +66,7 @@ public class Main
 		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
-        JMenuItem readme = new JMenuItem( "Read Me");
+     	JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
 		JMenuItem jaune= new JMenuItem("Jaune");
 		JMenuItem rose= new JMenuItem("Rose");
@@ -71,6 +77,7 @@ public class Main
 		help.add(readme);
 		help.add(aide);
 		help.add(credit);
+        
 		frame.add(menu);
 		file.add(newf);
 		file.add(load);
@@ -114,8 +121,15 @@ public class Main
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = Jeu.personnageChoisi();
-		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
+		Personnage persoChoisi1 = personnages[Choixalea(personnages.length)];
+ Personnage persoChoisiEphemere = personnages[Choixalea(personnages.length)];
+ Personnage persoChoisi3 = personnages[Choixalea(personnages.length)];
+
+         if (persoChoisi1.equals(persoChoisiEphemere)) { persoChoisiEphemere =persoChoisi3 ; } 
+
+    Personnage persoChoisi2= persoChoisiEphemere ; 
+
+		System.out.println("les personnages choisis sont: " + persoChoisi1.getNom() +" et "+persoChoisi2.getNom());
 		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
 		frame.setLayout(new GridLayout(8,1));
 		for (int i = 0; i < panelsPersos.length; i++){
@@ -123,27 +137,35 @@ public class Main
 		}
 
 		
-		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
-		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
-		JComboBox<Sport> sports= new JComboBox<>(Sport.values());
-		assignerQuestion(sports, s -> s== persoChoisi.getSport());
-		JComboBox<Age> ages = new JComboBox<>(Age.values());
-		assignerQuestion(ages, a -> a== persoChoisi.getAge());
-		JComboBox<Genre> genres = new JComboBox<>(Genre.values());
-		assignerQuestion(genres, g -> g== persoChoisi.getGenre());
-		JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
-		assignerQuestion(couleurs, c -> c== persoChoisi.getCouleurCheveux());
-		JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
-		assignerQuestion(pilosites, p -> p== persoChoisi.getPilosite());
-		JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
-		assignerQuestion(cheveux, c -> c== persoChoisi.getCheveux());
+JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
+ assignerQuestion(nationalites, n ->( n == persoChoisi1.getNationalite() || n ==persoChoisi2.getNationalite() )) ;
+
+ JComboBox<Sport> sports= new JComboBox<>(Sport.values());
+ assignerQuestion(sports, s ->( s== persoChoisi1.getSport() || s==persoChoisi2.getSport() ));
+
+ JComboBox<Age> ages = new JComboBox<>(Age.values());
+ assignerQuestion(ages, a ->( a== persoChoisi1.getAge() || a==persoChoisi2.getAge() ));
+
+ JComboBox<Genre> genres = new JComboBox<>(Genre.values());
+ assignerQuestion(genres, g ->( g== persoChoisi1.getGenre() || g == persoChoisi2.getGenre () ));
+
+ JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
+ assignerQuestion(couleurs, c ->( c== persoChoisi1.getCouleurCheveux() ));
+
+ JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
+ assignerQuestion(pilosites, p ->( p== persoChoisi1.getPilosite() || p==persoChoisi2.getPilosite() ));
+
+ JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
+ assignerQuestion(cheveux, c ->(c== persoChoisi1.getCheveux() || c==persoChoisi2.getCheveux() )) ;
+
 		JComboBox<Personnage> labelPersos = new JComboBox<>(personnages);
+
 //Fonction recherche nom 
 		labelPersos.addActionListener(new ActionListener() {     
 		//	@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if(labelPersos.getSelectedItem()== persoChoisi)
+ if(labelPersos.getSelectedItem()== persoChoisi1 || labelPersos.getSelectedItem() ==persoChoisi2)
 				{   
 					System.out.println("oui");
 					choisissez.setVisible(false);
@@ -236,7 +258,7 @@ public class Main
 			frame.dispose();
 			accueil.dispose();
 			try {
-			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ"); 
 			
 			StringBuilder resultat = new StringBuilder(); 
 			
@@ -267,7 +289,8 @@ public class Main
 			;});
 
 
-		readme.addActionListener(e ->{
+
+readme.addActionListener(e ->{
 			try {
 			Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
 			
@@ -281,6 +304,7 @@ public class Main
 
 			;});
 
+            
 		//charger une partie
 		load.addActionListener(e->{
 
