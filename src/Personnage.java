@@ -34,11 +34,14 @@ public class Personnage{
         }
         attributs = json; 
     }
-    public String[]  clesAttributs(){
-        return attributs.keySet().toArray(new String[0]);
+    public Personnage (JsonObject json){
+        attributs = json; 
+    }
+    public Set<String>  clesAttributs(){
+        return attributs.keySet();
     }
     public String valeurAttribut(String cle){
-        return attributs.get(cle).toString();
+        return attributs.get(cle).getAsString();
     }
     public String getPhoto(){
         return valeurAttribut("image"); 
@@ -60,7 +63,7 @@ public class Personnage{
     }
     public boolean estCoche(){
 		JsonPrimitive coche = attributs.getAsJsonPrimitive("coche") ; 
-		return coche.isBoolean() && coche.getAsBoolean(); 
+		return coche != null  && coche.getAsBoolean(); 
 		
 		
     }

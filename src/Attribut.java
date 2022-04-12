@@ -5,12 +5,21 @@ public class Attribut {
     private String[] valeursPossibles;
     public Attribut(String nom, Set<String> valeurs){
         nomAttribut = nom;
-        valeursPossibles = valeurs.toArray(new String[0]);
+        valeursPossibles = valeurs.toArray(String[]::new);
     }
     public String[] getOptions(){
         return valeursPossibles; 
     }
     public String getNom(){
         return nomAttribut; 
+    }
+    @Override
+    public boolean equals(Object o){
+        return o != null && o instanceof Attribut && ((Attribut)o).nomAttribut.equals(nomAttribut); 
+    }
+    @Override
+    public int hashCode(){
+        return nomAttribut.hashCode(); 
+
     }
 }

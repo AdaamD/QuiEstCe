@@ -1,10 +1,16 @@
 import com.google.gson.*;
+import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 //import java.util.ArrayList; 
 public class Jeu {
     private static Random random = new Random();
@@ -16,7 +22,7 @@ public class Jeu {
     private Integer indicePersoChoisi;
     private Jeu (){}
    
-    private static final String dossierImages = "../"; 
+    
     private static String serialiserPartie(){
         final Gson gson = new GsonBuilder().create(); 
         return gson.toJson(partie);
@@ -27,20 +33,14 @@ public class Jeu {
 
         if (attributs != null) 
             return attributs; 
-        Personnage p = personnageChoisi();
-        String[] nomsAttributs = p.clesAttributs(); 
-        Set<Attribut> attributs = new HashSet<>();
-        for (int i = 0; i<nomsAttributs.length;i++){
-            String cle = nomsAttributs[i];
-            HashSet<String> valeurs = new HashSet<>();
-            for (int j = 0; j < partie.personnages.length; j++ ){
-                valeurs.add(partie.personnages[i].valeurAttribut(cle)); 
-                
-            }
-            attributs.add(new Attribut(cle,valeurs));
+        attributs = personnageChoisi().clesAttributs().stream().filter(cle -> ! cle.equals("nom")).map(
+                    s -> new Attribut (s,
+                        Arrays.stream(partie.personnages)
+                        .map(p -> p.valeurAttribut(s)).collect(Collectors.toSet())
+            )).toArray(Attribut[]::new); 
+        
+        return attributs;
 
-        }
-        return attributs.toArray(new Attribut[0]); 
     }
     
     public static Personnage personnageChoisi(){
@@ -53,7 +53,8 @@ public class Jeu {
         final Gson gson = new GsonBuilder().create();
         try { 
             String json = OuvrirFichier.lire(custom ? "persosCustom.json":"../personnages.json");
-            partie.personnages = gson.fromJson(json,Personnage[].class);
+            JsonObject[] personnages = gson.fromJson(json,JsonObject[].class);
+            partie.personnages = Arrays.stream(personnages).map(p -> new Personnage(p)).toArray(Personnage[]::new);
             }
             catch (IOException e){
                 System.err.println("erreur dans ouvertures du fichier personnages.json"); 
@@ -77,11 +78,14 @@ public class Jeu {
         partie = new Jeu();
         if (nouvelle) nouvellePartie(custom);
         else{
-        final Gson gson = new GsonBuilder().create();
+        final JsonParser  parser = new JsonParser(); 
         
         try {
             String json = OuvrirFichier.lire("sauvegarde.json");
-            partie = gson.fromJson(json,partie.getClass());
+            JsonArray tableauPerso = parser.parse(json).getAsJsonArray();
+            partie.personnages = new Personnage[tableauPerso.size()];
+            IntStream.range(0, partie.personnages.length).forEach
+            (i ->partie.personnages[i] = new Personnage(tableauPerso.get(i).getAsJsonObject())); 
 
         }
         catch (IOException e1) {
@@ -98,9 +102,6 @@ public class Jeu {
         return partie.personnages; 
     }
     
-    public static String getImage(String nom){
-        return dossierImages + nom;
-
-    }
+    
 
 }

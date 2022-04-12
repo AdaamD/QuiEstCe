@@ -4,7 +4,11 @@ import java.nio.file.Paths;
  
 public class OuvrirFichier 
 {
-    
+    public static final String dossierImages = "../"; 
+    public static final String imageCroix = dossierImages + "croix.jpg";
+    public static String getImage(String nomImage){
+        return dossierImages + nomImage;
+    }
  
     //Read file content into string with - Files.readAllBytes(Path path)
     public static String lire(String filePath) throws IOException
