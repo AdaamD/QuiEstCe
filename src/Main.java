@@ -10,57 +10,60 @@ import java.io.InputStreamReader;
 public class Main 
 
 {
-		
-		private static final JFrame accueil = Cadres.accueil();
-		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
-		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
-		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
-		private static  JPanel[] panelsPersos; 
-		private static final JFrame frame = Cadres.cadre(panelsPersos); 
-		private static void repondreOui(){
-			System.out.println("oui");
-			reponseOui.setVisible(true);
-			reponseNon.setVisible(false);
-			choisissez.setVisible(false);
-			frame.repaint();
-		}
-		private static void repondreNon(){
-			System.out.println("non");
-			reponseNon.setVisible(true);
-			reponseOui.setVisible(false);
-			choisissez.setVisible(false);
-			frame.repaint(); 
-		}
-		private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
-			box.addActionListener(new ActionListener() {     
+
+	private static final JFrame accueil = Cadres.accueil();
+	private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
+	private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
+	private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+	private static  JPanel[] panelsPersos; 
+	private static final JFrame frame = Cadres.cadre(panelsPersos); 
+	private static void repondreOui(){
+		System.out.println("oui");
+		reponseOui.setVisible(true);
+		reponseNon.setVisible(false);
+		choisissez.setVisible(false);
+		frame.repaint();
+	}
+	private static void repondreNon(){
+		System.out.println("non");
+		reponseNon.setVisible(true);
+		reponseOui.setVisible(false);
+		choisissez.setVisible(false);
+		frame.repaint(); 
+	}
+	private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
+		box.addActionListener(new ActionListener() {     
 				//	@Override
-					public void actionPerformed(ActionEvent e) {
-		
-						if(question.apply((E)box.getSelectedItem()))
-						{ repondreOui();
-							
-						} 
-						else {
-							repondreNon();
-						}
+			public void actionPerformed(ActionEvent e) {
+
+				if(question.apply((E)box.getSelectedItem()))
+					{ repondreOui();
+
 					} 
-				});
-		}
+					else {
+						repondreNon();
+					}
+				} 
+			});
+	}
     // Fonction choix d'un nb aléatoire
 
 	public static void main(String[] args) 
 	{ 	
 	// menus 
 		JMenuBar menu = new JMenuBar();						
-		JMenu file = new JMenu("Fichier");					
+		JMenu file = new JMenu("Fichier");	
+		JMenu mode = new JMenu("Modes de jeu");
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
-		JMenuItem newf = new JMenuItem("Redemarrer");
-		JMenuItem load = new JMenuItem("Option Inutile");
+		JMenuItem newf = new JMenuItem("Nouvelle partie");
+		JMenuItem load = new JMenuItem("Reprendre");
 		JMenuItem quit = new JMenuItem("Sauvegarder");
+		JMenuItem deuxJ = new JMenuItem("2 Personnages");
+		JMenuItem deuxJCmplx = new JMenuItem("2 Personnages complexe");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
-        JMenuItem readme = new JMenuItem( "Read Me");
+		JMenuItem readme = new JMenuItem( "Read Me");
 		JMenuItem coldefaut= new JMenuItem("Par defaut");
 		JMenuItem jaune= new JMenuItem("Jaune");
 		JMenuItem rose= new JMenuItem("Rose");
@@ -68,35 +71,28 @@ public class Main
 		JMenuItem vert= new JMenuItem("Vert");
 		JMenuItem bleu= new JMenuItem("Bleu");
 
-		help.add(readme);
-		help.add(aide);
-		help.add(credit);
+
 		frame.add(menu);
 		file.add(newf);
 		file.add(load);
 		file.add(quit);
+		mode.add(deuxJ);
+		mode.add(deuxJCmplx);
 		theme.add(coldefaut);
 		theme.add(jaune);
 		theme.add(orange);
 		theme.add(rose);
 		theme.add(vert);
 		theme.add(bleu);
-		quit.addActionListener(e -> { 
-			try{
-				Jeu.sauvegarder();
-			}
-			catch (IOException ex){
-				System.err.println("echec de sauvegarde");
-			}
-			finally {
-				frame.setVisible(false); 
-				accueil.setVisible(true);
-			}
-			});
+		help.add(readme);
+		help.add(aide);
+		help.add(credit);
+
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
 		menu.add(file);
+		menu.add(mode);
 		menu.add(theme);
 		menu.add(help);
 
@@ -110,7 +106,7 @@ public class Main
 		JPanel validation = new JPanel();
 		Personnage[] personnages = Jeu.getPersonnages(
 			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
-		);
+			);
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
@@ -173,7 +169,7 @@ public class Main
 		//définition des différents thèmes
 		coldefaut.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.WHITE);
-			menu.setBackground(Color.WHITE);
+				menu.setBackground(Color.WHITE);
 			question.setBackground(Color.WHITE);reponse.setBackground(Color.WHITE);validation.setBackground(Color.WHITE);
 			frame.getContentPane().setBackground(Color.lightGray);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
@@ -182,7 +178,7 @@ public class Main
 		});
 		jaune.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.YELLOW);
-			menu.setBackground(Color.YELLOW);
+				menu.setBackground(Color.YELLOW);
 			question.setBackground(Color.YELLOW);reponse.setBackground(Color.YELLOW);validation.setBackground(Color.YELLOW);
 			frame.setBackground(Color.YELLOW);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.YELLOW));
@@ -191,7 +187,7 @@ public class Main
 		});
 		rose.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.PINK);
-			menu.setBackground(Color.PINK);
+				menu.setBackground(Color.PINK);
 			question.setBackground(Color.PINK);reponse.setBackground(Color.PINK);validation.setBackground(Color.PINK);
 			frame.setBackground(Color.PINK);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.PINK));
@@ -200,7 +196,7 @@ public class Main
 		});
 		orange.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.ORANGE);
-			menu.setBackground(Color.ORANGE);
+				menu.setBackground(Color.ORANGE);
 			question.setBackground(Color.ORANGE);reponse.setBackground(Color.ORANGE);validation.setBackground(Color.ORANGE);
 			frame.setBackground(Color.ORANGE);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.ORANGE));
@@ -209,7 +205,7 @@ public class Main
 		});
 		vert.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.GREEN);
-			menu.setBackground(Color.GREEN);
+				menu.setBackground(Color.GREEN);
 			question.setBackground(Color.GREEN);reponse.setBackground(Color.GREEN);validation.setBackground(Color.GREEN);
 			frame.setBackground(Color.GREEN);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.GREEN));
@@ -218,7 +214,7 @@ public class Main
 		});
 		bleu.addActionListener(e ->{
 			for (int i=0;i<4;i++) panelsPersos[i].setBackground(Color.CYAN);
-			menu.setBackground(Color.CYAN);
+				menu.setBackground(Color.CYAN);
 			question.setBackground(Color.CYAN);reponse.setBackground(Color.CYAN);validation.setBackground(Color.CYAN);
 			frame.setBackground(Color.CYAN);
 			frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.CYAN));
@@ -236,60 +232,174 @@ public class Main
 			frame.dispose();
 			accueil.dispose();
 			try {
-			Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
-			
-			StringBuilder resultat = new StringBuilder(); 
-			
-			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
-			
-			String ligne;
-			
-			while ((ligne = lecteur.readLine()) != null) {
-				resultat.append(ligne + "\n"); 
-			}
-			
-			int valeurDeSortie = processus.waitFor();
-			if (valeurDeSortie == 0) {
-				System.out.println("Success!");
-				System.out.println(resultat); 
-				System.exit(0);
-			} else {
-				System.out.println("Quelquechose de pas normal s'est produit :( "); 
-			}
-				
-		} catch (IOException t) {
-			t.printStackTrace();
-		} catch (InterruptedException t) {
-			t.printStackTrace();
-		}
-			
+				Process processus = Runtime.getRuntime().exec("rm -f sauvegarde.json");
+				Process processus2 = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
 
+				StringBuilder resultat = new StringBuilder(); 
+
+				BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+				String ligne;
+
+				while ((ligne = lecteur.readLine()) != null) {
+					resultat.append(ligne + "\n"); 
+				}
+
+				int valeurDeSortie = processus.waitFor();
+				int valeurDeSortie2 = processus.waitFor();
+				if (valeurDeSortie == 0 && valeurDeSortie2==0) {
+					System.out.println("Success!");
+					System.out.println(resultat); 
+					System.exit(0);
+				} else {
+					System.out.println("Quelque chose de pas normal s'est produit :( "); 
+				}
+				
+			} catch (IOException t) {
+				t.printStackTrace();
+			} catch (InterruptedException t) {
+				t.printStackTrace();
+			}
+
+			;});
+
+		load.addActionListener(e->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+				Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+
+				StringBuilder resultat = new StringBuilder(); 
+
+				BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+				String ligne;
+
+				while ((ligne = lecteur.readLine()) != null) {
+					resultat.append(ligne + "\n"); 
+				}
+
+				int valeurDeSortie = processus.waitFor();
+				if (valeurDeSortie == 0) {
+					System.out.println("Success!");
+					System.out.println(resultat); 
+					System.exit(0);
+				} else {
+					System.out.println("Quelquechose de pas normal s'est produit :( "); 
+				}
+				
+			} catch (IOException t) {
+				t.printStackTrace();
+			} catch (InterruptedException t) {
+				t.printStackTrace();
+			}
+
+			;});
+
+		quit.addActionListener(e -> { 
+			try{
+				Jeu.sauvegarder();
+			}
+			catch (IOException ex){
+				System.err.println("echec de sauvegarde");
+			}
+			finally {
+				frame.setVisible(false); 
+				accueil.setVisible(true);
+			}
+		});
+
+
+		deuxJ.addActionListener(e ->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+				Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . DeuxJ.java"); 
+				Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ");
+
+				StringBuilder resultat = new StringBuilder(); 
+
+				BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+				String ligne;
+
+				while ((ligne = lecteur.readLine()) != null) {
+					resultat.append(ligne + "\n"); 
+				}
+
+				int valeurDeSortie = processus.waitFor();
+				int valeurDeSortie2 = processus2.waitFor();
+				if (valeurDeSortie == 0 && valeurDeSortie2== 0) {
+					System.out.println("Success!");
+					System.out.println(resultat); 
+					System.exit(0);
+				} else {
+					System.out.println("Quelquechose de pas normal s'est produit :( "); 
+				}
+				
+			} catch (IOException t) {
+				t.printStackTrace();
+			} catch (InterruptedException t) {
+				t.printStackTrace();
+			}
+			;});
+
+
+		deuxJCmplx.addActionListener(e ->{
+			frame.dispose();
+			accueil.dispose();
+			try {
+				Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . DeuxJCmplx.java"); 
+				Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJCmplx");
+
+				StringBuilder resultat = new StringBuilder(); 
+
+				BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+				String ligne;
+
+				while ((ligne = lecteur.readLine()) != null) {
+					resultat.append(ligne + "\n"); 
+				}
+
+				int valeurDeSortie = processus.waitFor();
+				int valeurDeSortie2 = processus2.waitFor();
+				if (valeurDeSortie == 0 && valeurDeSortie2== 0) {
+					System.out.println("Success!");
+					System.out.println(resultat); 
+					System.exit(0);
+				} else {
+					System.out.println("Quelquechose de pas normal s'est produit :( "); 
+				}
+				
+			} catch (IOException t) {
+				t.printStackTrace();
+			} catch (InterruptedException t) {
+				t.printStackTrace();
+			}
 			;});
 
 
 		readme.addActionListener(e ->{
 			try {
-			Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
-			
-			StringBuilder resultat = new StringBuilder(); 
-			
-			BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
-					
-		} catch (IOException t) {
-			t.printStackTrace();
-		} 
+				Process processus = Runtime.getRuntime().exec("display ../tableau1.jpg"); 
+
+				StringBuilder resultat = new StringBuilder(); 
+
+				BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+			} catch (IOException t) {
+				t.printStackTrace();
+			} 
 
 			;});
 
-		//charger une partie
-		load.addActionListener(e->{
-
-			;});
+		
 
 
 
 
-			
+
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
@@ -316,11 +426,11 @@ public class Main
 		accueil.add(jouer);
 		
 	//rendre le bouton transparent
-    	jouer.setOpaque(false);
+		jouer.setOpaque(false);
     //enlever la zone de contenu
-    	jouer.setContentAreaFilled(false);
+		jouer.setContentAreaFilled(false);
     //enlever la bordure
-   	 	jouer.setBorderPainted(false);
+		jouer.setBorderPainted(false);
    	//pour lancer le jeu
 		jouer.addActionListener(new ActionListener() {     
 
