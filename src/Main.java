@@ -11,28 +11,30 @@ public class Main
 
 {
 
-	private static final JFrame accueil = Cadres.accueil();
-	private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
-	private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
-	private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
-	private static  JPanel[] panelsPersos; 
-	private static final JFrame frame = Cadres.cadre(panelsPersos); 
-	private static void repondreOui(){
-		System.out.println("oui");
-		reponseOui.setVisible(true);
-		reponseNon.setVisible(false);
-		choisissez.setVisible(false);
-		frame.repaint();
-	}
-	private static void repondreNon(){
-		System.out.println("non");
-		reponseNon.setVisible(true);
-		reponseOui.setVisible(false);
-		choisissez.setVisible(false);
-		frame.repaint(); 
-	}
-	private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
-		box.addActionListener(new ActionListener() {     
+		
+		private static final JFrame accueil = Cadres.accueil();
+		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
+		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
+		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+		private static  JPanel[] panelsPersos; 
+		private static final JFrame frame = Cadres.cadre(panelsPersos); 
+		public static void repondreOui(){
+			System.out.println("oui");
+			reponseOui.setVisible(true);
+			reponseNon.setVisible(false);
+			choisissez.setVisible(false);
+			frame.repaint();
+		}
+		public static void repondreNon(){
+			System.out.println("non");
+			reponseNon.setVisible(true);
+			reponseOui.setVisible(false);
+			choisissez.setVisible(false);
+			frame.repaint(); 
+		}
+		private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
+			box.addActionListener(new ActionListener() {     
+
 				//	@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -56,11 +58,13 @@ public class Main
 		JMenu mode = new JMenu("Modes de jeu");
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
+
 		JMenuItem newf = new JMenuItem("Nouvelle partie");
 		JMenuItem load = new JMenuItem("Reprendre");
 		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem deuxJ = new JMenuItem("2 Personnages");
 		JMenuItem deuxJCmplx = new JMenuItem("2 Personnages complexe");
+
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
 		JMenuItem readme = new JMenuItem( "Read Me");
@@ -107,32 +111,19 @@ public class Main
 		Personnage[] personnages = Jeu.getPersonnages(
 			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
 			);
+
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
 		Personnage persoChoisi = Jeu.personnageChoisi();
 		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
-		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
 		frame.setLayout(new GridLayout(8,1));
 		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
 
 		
-		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
-		assignerQuestion(nationalites, n -> n == persoChoisi.getNationalite());
-		JComboBox<Sport> sports= new JComboBox<>(Sport.values());
-		assignerQuestion(sports, s -> s== persoChoisi.getSport());
-		JComboBox<Age> ages = new JComboBox<>(Age.values());
-		assignerQuestion(ages, a -> a== persoChoisi.getAge());
-		JComboBox<Genre> genres = new JComboBox<>(Genre.values());
-		assignerQuestion(genres, g -> g== persoChoisi.getGenre());
-		JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
-		assignerQuestion(couleurs, c -> c== persoChoisi.getCouleurCheveux());
-		JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
-		assignerQuestion(pilosites, p -> p== persoChoisi.getPilosite());
-		JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
-		assignerQuestion(cheveux, c -> c== persoChoisi.getCheveux());
+		Arrays.stream(ListeValeurs.listes()).forEach(liste -> question.add(liste));
 		JComboBox<Personnage> labelPersos = new JComboBox<>(personnages);
 //Fonction recherche nom 
 		labelPersos.addActionListener(new ActionListener() {     
@@ -300,6 +291,7 @@ public class Main
 			try{
 				Jeu.sauvegarder();
 			}
+
 			catch (IOException ex){
 				System.err.println("echec de sauvegarde");
 			}
@@ -403,15 +395,6 @@ public class Main
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
-		
-		question.add(nationalites);
-		question.add(sports);
-		question.add(ages);
-		question.add(genres);
-		question.add(couleurs);
-		question.add(pilosites);
-		question.add(cheveux);
-		validation.add(labelPersos);
 		frame.pack();
 		frame.setSize(1500, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -442,7 +425,7 @@ public class Main
 		accueil.pack();
 		accueil.setSize(1200, 1200);
 		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		accueil.setContentPane(new JLabel(new ImageIcon (Jeu.getImage("qui.jpg"))));
+		accueil.setContentPane(new JLabel(new ImageIcon (OuvrirFichier.getImage("qui.jpg"))));
 		accueil.getContentPane().setBackground(Color.lightGray);
 		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
 		accueil.setVisible(true);

@@ -1,4 +1,6 @@
 bin
+src/sauvegarde.json
+src/persosCustom.json
 .vscode
 # Compiled class file
 *.class
