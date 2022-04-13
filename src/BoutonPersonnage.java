@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class BoutonPersonnage extends JButton {
-    
     public static final JPanel [] panels (Personnage [] personnages){
         JPanel[] panelsPersos = {new JPanel(), new JPanel(), new JPanel(), new JPanel()};
 
@@ -17,12 +16,12 @@ public class BoutonPersonnage extends JButton {
 
     }
     private static final ImageIcon croix= 
-        new ImageIcon(new ImageIcon(OuvrirFichier.imageCroix)
+        new ImageIcon(new ImageIcon(Jeu.getImage("croix.jpg"))
         .getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
     private ImageIcon iconePerso;
     private Personnage personnage;
     private BoutonPersonnage (Personnage perso){
-        iconePerso = new ImageIcon(new ImageIcon(OuvrirFichier.getImage(perso.getPhoto())).getImage()
+        iconePerso = new ImageIcon(new ImageIcon(Jeu.getImage(perso.getPhoto())).getImage()
         .getScaledInstance(200,200,Image.SCALE_DEFAULT));
         setIcon(perso.estCoche() ? croix : iconePerso);
 
