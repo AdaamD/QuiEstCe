@@ -101,15 +101,15 @@ public class Generateur{
                     }
                     ).forEach(obj -> tableauJson.add(obj)); 
                     String tableau = gson.toJson(tableauJson); 
-                    /*try {
-                    OuvrirFichier.ecraserAvec(OuvrirFichier.fichierPersosCustom, Arrays.toString(
+                    try {
+                    OuvrirFichier.ecraserAvec(OuvrirFichier.fichierPersosCustom, 
         
-                        tableau));
+                        tableau);
                     }
                     catch (IOException io){
                         System.err.println("erreur dans l'export");
                         io.printStackTrace();
-                    }*/
+                    }
                     System.out.println(tableau);
 
                 }
