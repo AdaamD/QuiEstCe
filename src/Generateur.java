@@ -1,207 +1,142 @@
-
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.awt.*;
-import java.awt.event.*;  
-import java.util.Random;
-import java.util.function.Function;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
-class Generateur
-{
-    private static ArrayList<Personnage> persosCrees; 
-    private static final Gson gson = new GsonBuilder().create();
-    private static <E> void assignerQuestion(JComboBox<E> box){
-        box.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
-
-                System.out.println(box.getSelectedItem()) ;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 
-            }
-        });
-    }
 
+public class Generateur{
+    private static final JLabel fichierExport = new JLabel("Fichier d'export: "+OuvrirFichier.fichierPersosCustom);
+    private static final JLabel dossierImage = new JLabel("Les images doivent etre placees dans: "+OuvrirFichier.dossierImages); 
+    private static final int NBPERSOMAX = 16;
+    private static final Gson gson = new GsonBuilder().create(); 
+    private static final int NBATTRMAX = 8;//nom exclu
+    private static final JPanel panneauSaisie = new JPanel();
+    private static final JFrame cadre = new JFrame("Generateur");
+    private static JLabel indexNom = new JLabel("nom (unique)");
+    private static JLabel indexImage = new JLabel("nom image");
+    private static List<JTextField> index = IntStream.range(0,NBATTRMAX).mapToObj
     
+        (i ->new JTextField()).collect(Collectors.toList());
 
-    public static void main(String args[])
-    {
-
-
-        JFrame frame = new JFrame("Generateur");
-        JFrame photos = new JFrame("Personnages générés");
-        JPanel panel = new JPanel();
+    private static List<List<JTextField>> persosSaisis = (IntStream.range(0,NBPERSOMAX).mapToObj
+        (i -> IntStream.range(0,NBATTRMAX + 2).mapToObj(j -> new JTextField(20)).collect(Collectors.toList()))).collect(Collectors.toList());
+    private static JButton exporter = new JButton("exporter les persos");
+    private static boolean estVide(String s){return s == null || s.equals("");}
+    private static int nbAttrRemplis(List<JTextField> ligne){ return ligne.stream().reduce(0, ((n,f) -> estVide(f.getText()) ? 0 : 1), (n,f) -> n + f);}
+    private static boolean indexOk(){
         
+        Stream<String> str = index.stream().map(f -> f.getText());
+        return str.collect(Collectors.toSet()).size() == nbAttrRemplis(index); 
+    }
+    
+    /*private static Set<String[]> persosComplets() {
+        int nbA = nbAttrRemplis(index); 
+        return saisiePersos.stream().filter(r -> (! estVide(r.get(0).getText()) && nbAttrRemplis(r) != nbA)).map(Streams.toArray()); 
+            if (!estVide (saisiePersos.get(i).get(0).getText()) && nbAttrRemplis(saisiePersos.get(i)) != nbAttrRemplis(index))
+                return false;
+        return true; */
+    private static String trim(String chaine){
+        return chaine == null ? "" : chaine.trim();
+    }
+    private static boolean uniciteValeur(Stream<JTextField> flux, Color couleurErreur){
+        HashSet<String> dejaPris = new HashSet<>(); 
+        return flux.map(champ ->
+            {
+            String nom = trim(champ.getText()); 
+            if (! nom.equals("")){
+                if (dejaPris.contains(nom)){
+                champ.setForeground(couleurErreur); 
+                return false;
+                
+            }
+                else {
+                    dejaPris.add(nom);//pourrait être hors du else et fonctionner
+
+            } 
+            
+            
+        }
+        champ.setForeground(Color.BLACK);//pas sûr de comprendre pourquoi c'est nécessaire
+        return true;
         
+    }).reduce(true,(u1,u2) -> u1 && u2);
+     }
+    public static void main (String[]args){
+        exporter.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Stream<List<JTextField>> fluxPersos = persosSaisis.stream(); 
+                Stream<JTextField> fluxNoms = persosSaisis.stream().map(rangee -> rangee.get(0));
+                Stream<JTextField> fluxImages = persosSaisis.stream().map(rangee -> rangee.get(1)); 
+                boolean uniciteNoms = uniciteValeur(fluxNoms,Color.RED); 
+                uniciteValeur(fluxImages,Color.ORANGE); 
+                System.out.println(uniciteNoms); 
+                JsonArray tableauJson = new JsonArray();
+                if (uniciteNoms){
+                    IntStream colonnesEtiquettees = IntStream.range(0,NBATTRMAX)
+                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()); 
 
+                    IntStream.range(0,NBPERSOMAX)
+                    .filter(i -> ! trim (persosSaisis.get(i).get(0).getText()).isEmpty()).mapToObj(
+                            ligne -> {JsonObject perso = new JsonObject();
+                                    perso.addProperty("nom", persosSaisis.get(ligne).get(0).getText());
+                                    perso.addProperty("image",persosSaisis.get(ligne).get(1).getText()); 
+                                    colonnesEtiquettees.forEach(colonne -> 
+                                        perso.addProperty (index.get(colonne + 2).getText(),persosSaisis.get(ligne).get(colonne).getText()));
+                                return gson.toJson(perso);
 
-        JButton valider = new JButton("Valider");
-        JButton cliquer = new JButton("creer");
-        JButton exporter = new JButton("Exporter grille de personnages") ; 
-        JTextField nom = new JTextField("entrez le nom "); nom.setBounds(20,40,200,28);
-        JTextField img = new JTextField("entrez le lien de l'image "); img.setBounds(20,40,200,28); img.setVisible(false);
-
-        valider.setBounds(100,100,100,40);
-        cliquer.setBounds(100,100,100,40);    
-        exporter.setBounds(100,200,500,40);
-
-
-        frame.add(nom);
-        frame.add(img);
-        frame.add(cliquer);
-        frame.add(exporter); 
-        exporter.addActionListener(new ActionListener() {    
-
-            public void actionPerformed(ActionEvent e) {
-                        
-                        if (persosCrees.size() >= 1) {
-                            Personnage[] ps =  persosCrees.toArray(new Personnage[0]); 
-                            String s = gson.toJson(ps,Personnage[].class);
-                            try {
-                            Files.deleteIfExists(Paths.get("persosCustom.json"));
-                            Files.write(Paths.get("persosCustom.json"),s.getBytes()); }
-                            catch (IOException ioe){
-                                System.err.println("erreur dans export de la grille");
-                                ioe.printStackTrace();
-                            }
-
-                        }
-
-                        
-                       
                     }
-                });
+                    ).forEach(obj -> tableauJson.add(obj)); 
+                    String tableau = gson.toJson(tableauJson); 
+                    /*try {
+                    OuvrirFichier.ecraserAvec(OuvrirFichier.fichierPersosCustom, Arrays.toString(
+        
+                        tableau));
+                    }
+                    catch (IOException io){
+                        System.err.println("erreur dans l'export");
+                        io.printStackTrace();
+                    }*/
+                    System.out.println(tableau);
 
-
-
-
-
-
-
-        cliquer.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
-
-                panel.setVisible(true);
-                nom.setVisible(false);
-                img.setVisible(true);
-                cliquer.setVisible(false);
-                exporter.setVisible(false);
-                panel.add(valider);                  
+                }
             }
         });
+        panneauSaisie.setLayout(new GridLayout(NBPERSOMAX + 2,NBATTRMAX + 2));
+        panneauSaisie.add(indexNom);
+        panneauSaisie.add(indexImage);
 
+        index.get(0).setName("nom atttribut 1");
+        index.get(1).setName("nom atttribut 2");
 
-        JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
-        //assignerQuestion(nationalites);
-        JComboBox<Sport> sports= new JComboBox<>(Sport.values());
-        //assignerQuestion(sports);
-        JComboBox<Age> ages = new JComboBox<>(Age.values());
-        //assignerQuestion(ages);
-        JComboBox<Genre> genres = new JComboBox<>(Genre.values());
-        //assignerQuestion(genres);
-        JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
-        //assignerQuestion(couleurs);
-        JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
-        //assignerQuestion(pilosites);
-        JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
-        //assignerQuestion(cheveux);
-
-        JPanel[] panelsPersos = {new JPanel()};
-
-
-        valider.addActionListener(new ActionListener() {    
-                //    @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Sport    var1 =(Sport) sports.getSelectedItem();
-                Age var2 =(Age) ages.getSelectedItem();
-                Nationalite var3= (Nationalite ) nationalites.getSelectedItem();
-                CouleurCheveux var4=    (CouleurCheveux) couleurs.getSelectedItem();
-                Genre var5=(Genre) genres.getSelectedItem();
-                Cheveux var6=(Cheveux) cheveux.getSelectedItem();
-                Pilosite var7=(Pilosite) pilosites.getSelectedItem();
-                String nomecrit = nom.getText();
-                String image = img.getText();
-                Personnage TEST  = new Personnage (var1, var2, var3 , var4,var5 , var6, var7 , nomecrit , image);
-
-                System.out.println (TEST.toStringGen());
-                int i=0;
-
-                photos.setVisible(true);
-                photos.setVisible(false); photos.setVisible(true);
-                frame.setVisible(true);
-                panel.setVisible(false);
-                nom.setVisible(true);
-                img.setVisible(false);
-                cliquer.setVisible(true);
-                exporter.setVisible(true);
-                panel.remove(valider);
-                photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-
-
-                JButton bouton = new JButton(new ImageIcon(new ImageIcon(Jeu.getImage(TEST.getPhoto())).getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT)));
-
-
-                panelsPersos[i].add(bouton);
-                photos.add(panelsPersos[i]);
-
-                i=i+1;
-
-                bouton.addActionListener(new ActionListener() {    
-
-                    public void actionPerformed(ActionEvent e) {
-                        JOptionPane.showMessageDialog(null,"Nom:"+nomecrit+"\nSport: "+var1+"\nAge: "+var2+"\nNationalité: "+var3+"\nCouleur de cheveux: "+var4+"\nGenre: "+var5+"\nCheveux: "+var6+"\nPilosité: "+var7,nomecrit,JOptionPane.INFORMATION_MESSAGE);
-
-                    }
-                });
-            }}); 
-
-        exporter.setVisible(true);
-        panel.add(nationalites);
-        panel.add(sports);
-        panel.add(ages);
-        panel.add(genres);
-        panel.add(couleurs);
-        panel.add(pilosites);
-        panel.add(cheveux);
-        panel.setVisible(false);
-
-
-        frame.add(panel);
-
-
-
-        frame.pack();
-        frame.setSize(1000, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setBackground(Color.lightGray);
-        frame.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
-        frame.setVisible(true);
-
-        photos.pack();
-        photos.setSize(1200,1200);
-        photos.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        //photos.setUndecorated(true);
-        photos.setVisible(false);
-
-        photos.getContentPane().setBackground(Color.lightGray);
-        photos.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
+        index.stream().forEach(champ -> panneauSaisie.add(champ)); 
+        persosSaisis.stream().forEach(rangee -> rangee.stream()
+            .forEach(champ -> panneauSaisie.add(champ)));
+            JPanel panneauExport = new JPanel();
+        panneauExport.setLayout(new GridLayout(4,1));
+        panneauExport.add(exporter); 
+        panneauExport.add(fichierExport);
+        panneauExport.add(dossierImage); 
+        cadre.setLayout(new GridLayout(1,2)); 
+        cadre.add(panneauSaisie);
+        cadre.add(panneauExport);            
+        cadre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        cadre.setSize(1800,600); 
+        cadre.setVisible(true);
         
 
-
-
-
     }
-}
+    }
