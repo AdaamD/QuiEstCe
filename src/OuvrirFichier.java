@@ -4,6 +4,8 @@ import java.nio.file.Paths;
  
 public class OuvrirFichier 
 {
+    public static final String fichierPersosCustom = "persosCustom.json"; 
+    public static final String fichierSauvegarde = "sauvegarde.json"; 
     public static final String dossierImages = "../"; 
     public static final String imageCroix = dossierImages + "croix.jpg";
     public static String getImage(String nomImage){
