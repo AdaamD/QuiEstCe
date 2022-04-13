@@ -6,35 +6,35 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Random;
 
-public class Main 
+
+public class DeuxJ 
 
 {
 
-		
-		private static final JFrame accueil = Cadres.accueil();
-		private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
-		private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
-		private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
-		private static  JPanel[] panelsPersos; 
-		private static final JFrame frame = Cadres.cadre(panelsPersos); 
-		public static void repondreOui(){
-			System.out.println("oui");
-			reponseOui.setVisible(true);
-			reponseNon.setVisible(false);
-			choisissez.setVisible(false);
-			frame.repaint();
-		}
-		public static void repondreNon(){
-			System.out.println("non");
-			reponseNon.setVisible(true);
-			reponseOui.setVisible(false);
-			choisissez.setVisible(false);
-			frame.repaint(); 
-		}
-		private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
-			box.addActionListener(new ActionListener() {     
-
+	private static final JFrame accueil = Cadres.accueil();
+	private static final JLabel reponseOui = new JLabel("Oui ", JLabel.CENTER);
+	private static final JLabel reponseNon = new JLabel("Non ", JLabel.CENTER);
+	private static final JLabel choisissez = new JLabel("Choisissez votre question ", JLabel.CENTER);
+	private static  JPanel[] panelsPersos; 
+	private static final JFrame frame = Cadres.cadre(panelsPersos); 
+	private static void repondreOui(){
+		System.out.println("oui");
+		reponseOui.setVisible(true);
+		reponseNon.setVisible(false);
+		choisissez.setVisible(false);
+		frame.repaint();
+	}
+	private static void repondreNon(){
+		System.out.println("non");
+		reponseNon.setVisible(true);
+		reponseOui.setVisible(false);
+		choisissez.setVisible(false);
+		frame.repaint(); 
+	}
+	private static <E> void assignerQuestion(JComboBox<E> box, Function<E,Boolean> question){
+		box.addActionListener(new ActionListener() {     
 				//	@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -48,23 +48,25 @@ public class Main
 				} 
 			});
 	}
-    // Fonction choix d'un nb aléatoire
-
+// Fonction choix d'un nb aléatoire
+	public static  int Choixalea(int nbPersos){
+		Random random = new Random();
+		int nb_Alea = random.nextInt(nbPersos);
+		return nb_Alea;
+	}
 	public static void main(String[] args) 
 	{ 	
 	// menus 
 		JMenuBar menu = new JMenuBar();						
 		JMenu file = new JMenu("Fichier");	
-		JMenu mode = new JMenu("Modes de jeu");
+		JMenu mode = new JMenu("Modes de jeu");			
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
-
 		JMenuItem newf = new JMenuItem("Nouvelle partie");
 		JMenuItem load = new JMenuItem("Reprendre");
 		JMenuItem quit = new JMenuItem("Sauvegarder");
-		JMenuItem deuxJ = new JMenuItem("2 Personnages");
-		JMenuItem deuxJCmplx = new JMenuItem("2 Personnages complexe");
-
+		JMenuItem soloJ = new JMenuItem("1 personnage");
+		JMenuItem deuxJCmplx= new JMenuItem("2 personnages complexe");
 		JMenuItem aide = new JMenuItem("Aide");
 		JMenuItem credit = new JMenuItem("Credits");
 		JMenuItem readme = new JMenuItem( "Read Me");
@@ -80,7 +82,7 @@ public class Main
 		file.add(newf);
 		file.add(load);
 		file.add(quit);
-		mode.add(deuxJ);
+		mode.add(soloJ);
 		mode.add(deuxJCmplx);
 		theme.add(coldefaut);
 		theme.add(jaune);
@@ -91,7 +93,7 @@ public class Main
 		help.add(readme);
 		help.add(aide);
 		help.add(credit);
-
+		
 		aide.addActionListener(e -> {JOptionPane.showMessageDialog(null , "BIENVENUE sur 'QUI-EST-CE'.\n Afin de deviner le sportif aléatoirement sélectionné, vous pouvez serez aidé de:\n-sa nationalité\n -son type de sport(individuel ou collectif) \n -sa catégorie d'âge \n -son genre(masculin ou féminin)\n -et sa pilosité.","menu d'aide",JOptionPane.INFORMATION_MESSAGE);});
 		credit.addActionListener(e-> {JOptionPane.showMessageDialog(null," This game has been developped by: \n -Paul FONTAINE \n -Adam DAIA \n -Matthias BLANC \n -Michel BE  ","Credit",JOptionPane.INFORMATION_MESSAGE);});
 
@@ -111,26 +113,54 @@ public class Main
 		Personnage[] personnages = Jeu.getPersonnages(
 			(Arrays.asList(args).contains("c")),(Arrays.asList(args).contains("n"))
 			);
-
 		panelsPersos = BoutonPersonnage.panels(personnages);
 		JLabel label = new JLabel("BIENVENUE SUR QUI-EST-CE?", JLabel.CENTER);
 		//frame.add(label);
-		Personnage persoChoisi = Jeu.personnageChoisi();
-		System.out.println("le personnage choisi est: " + persoChoisi.getNom());
+		Personnage persoChoisi1 = personnages[Choixalea(personnages.length)];
+		Personnage persoChoisiEphemere = personnages[Choixalea(personnages.length)];
+		Personnage persoChoisi3 = personnages[Choixalea(personnages.length)];
+
+		if (persoChoisi1.equals(persoChoisiEphemere)) { persoChoisiEphemere =persoChoisi3 ; } 
+
+		Personnage persoChoisi2= persoChoisiEphemere ; 
+
+		System.out.println("les personnages choisis sont: " + persoChoisi1.getNom() +" et "+persoChoisi2.getNom());
+		JPanel[] panelsPersos = BoutonPersonnage.panels(personnages);
 		frame.setLayout(new GridLayout(8,1));
 		for (int i = 0; i < panelsPersos.length; i++){
 			frame.add(panelsPersos[i]); 
 		}
 
 		
-		Arrays.stream(ListeValeurs.listes()).forEach(liste -> question.add(liste));
+		JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
+		assignerQuestion(nationalites, n ->( n == persoChoisi1.getNationalite() || n ==persoChoisi2.getNationalite() )) ;
+
+		JComboBox<Sport> sports= new JComboBox<>(Sport.values());
+		assignerQuestion(sports, s ->( s== persoChoisi1.getSport() || s==persoChoisi2.getSport() ));
+
+		JComboBox<Age> ages = new JComboBox<>(Age.values());
+		assignerQuestion(ages, a ->( a== persoChoisi1.getAge() || a==persoChoisi2.getAge() ));
+
+		JComboBox<Genre> genres = new JComboBox<>(Genre.values());
+		assignerQuestion(genres, g ->( g== persoChoisi1.getGenre() || g == persoChoisi2.getGenre () ));
+
+		JComboBox<CouleurCheveux> couleurs = new JComboBox<>(CouleurCheveux.values());
+		assignerQuestion(couleurs, c ->( c== persoChoisi1.getCouleurCheveux() ));
+
+		JComboBox<Pilosite> pilosites = new JComboBox<>(Pilosite.values());
+		assignerQuestion(pilosites, p ->( p== persoChoisi1.getPilosite() || p==persoChoisi2.getPilosite() ));
+
+		JComboBox<Cheveux> cheveux = new JComboBox<>(Cheveux.values());
+		assignerQuestion(cheveux, c ->(c== persoChoisi1.getCheveux() || c==persoChoisi2.getCheveux() )) ;
+
 		JComboBox<Personnage> labelPersos = new JComboBox<>(personnages);
+
 //Fonction recherche nom 
 		labelPersos.addActionListener(new ActionListener() {     
 		//	@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if(labelPersos.getSelectedItem()== persoChoisi)
+				if(labelPersos.getSelectedItem()== persoChoisi1 || labelPersos.getSelectedItem() ==persoChoisi2)
 				{   
 					System.out.println("oui");
 					choisissez.setVisible(false);
@@ -224,7 +254,7 @@ public class Main
 			accueil.dispose();
 			try {
 				Process processus = Runtime.getRuntime().exec("rm -f sauvegarde.json");
-				Process processus2 = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
+				Process processus2 = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ");
 
 				StringBuilder resultat = new StringBuilder(); 
 
@@ -258,7 +288,7 @@ public class Main
 			frame.dispose();
 			accueil.dispose();
 			try {
-				Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main"); 
+				Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ"); 
 
 				StringBuilder resultat = new StringBuilder(); 
 
@@ -284,6 +314,7 @@ public class Main
 			} catch (InterruptedException t) {
 				t.printStackTrace();
 			}
+			
 
 			;});
 
@@ -291,7 +322,6 @@ public class Main
 			try{
 				Jeu.sauvegarder();
 			}
-
 			catch (IOException ex){
 				System.err.println("echec de sauvegarde");
 			}
@@ -301,13 +331,12 @@ public class Main
 			}
 		});
 
-
-		deuxJ.addActionListener(e ->{
+		soloJ.addActionListener(e ->{
 			frame.dispose();
 			accueil.dispose();
 			try {
-				Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . DeuxJ.java"); 
-				Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJ");
+				Process processus = Runtime.getRuntime().exec("javac -cp gson-2.8.2.jar -sourcepath . Main.java"); 
+				Process processus2 =  Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar Main");
 
 				StringBuilder resultat = new StringBuilder(); 
 
@@ -371,6 +400,7 @@ public class Main
 			}
 			;});
 
+		
 
 		readme.addActionListener(e ->{
 			try {
@@ -386,15 +416,20 @@ public class Main
 
 			;});
 
-		
-
-
-
 
 
 		frame.add(question);
 		frame.add(reponse);
 		frame.add(validation);
+		
+		question.add(nationalites);
+		question.add(sports);
+		question.add(ages);
+		question.add(genres);
+		question.add(couleurs);
+		question.add(pilosites);
+		question.add(cheveux);
+		validation.add(labelPersos);
 		frame.pack();
 		frame.setSize(1500, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -425,7 +460,7 @@ public class Main
 		accueil.pack();
 		accueil.setSize(1200, 1200);
 		accueil.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		accueil.setContentPane(new JLabel(new ImageIcon (OuvrirFichier.getImage("qui.jpg"))));
+		accueil.setContentPane(new JLabel(new ImageIcon (Jeu.getImage("qui.jpg"))));
 		accueil.getContentPane().setBackground(Color.lightGray);
 		accueil.getRootPane().setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.WHITE));
 		accueil.setVisible(true);
