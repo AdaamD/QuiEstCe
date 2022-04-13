@@ -33,7 +33,7 @@ public class Jeu {
 
         if (attributs != null) 
             return attributs; 
-        attributs = personnageChoisi().clesAttributs().stream().filter(cle -> ! cle.equals("nom")).map(
+        attributs = personnageChoisi().clesAttributs().stream().filter(cle -> ! (cle.equals("nom") || cle.equals("image"))).map(
                     s -> new Attribut (s,
                         Arrays.stream(partie.personnages)
                         .map(p -> p.valeurAttribut(s)).collect(Collectors.toSet())
@@ -89,7 +89,7 @@ public class Jeu {
 
         }
         catch (IOException e1) {
-            System.out.println("reprise de la partie sauvegardée échouée");
+            System.out.println("reprise de la partie sauvegardee echouee");
             nouvellePartie(custom);
         }}
 

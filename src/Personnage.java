@@ -67,5 +67,31 @@ public class Personnage{
 		
 		
     }
+//Pour garder la compatitbilité avec les vieilles versions programmes
+    public Age getAge(){
+        return Age.valueOf(valeurAttribut("age"));
+    }
+    public Cheveux getCheveux(){
+        return Cheveux.valueOf(valeurAttribut("cheveux"));
+    }
+    public CouleurCheveux getCouleurCheveux(){
+        return CouleurCheveux.valueOf(valeurAttribut("couleurCheveux"));
+    }
+    public Genre getGenre(){
+        return Genre.valueOf(valeurAttribut("genre")); 
+    }
+    public Nationalite getNationalite(){
+        return Nationalite.valueOf(valeurAttribut("nationalite"));
+    }
+    public Pilosite getPilosite(){
+        return Pilosite.valueOf(valeurAttribut("pilosite"));
+    }
+    public Sport getSport(){
+        return Sport.valueOf(valeurAttribut("sport")); 
+    }
+    @Override
+    public String toString(){
+        return getNom(); 
+    }
 	
 }
