@@ -62,6 +62,9 @@ public class DeuxJCmplx
 		JMenu mode = new JMenu("Modes de jeu");				
 		JMenu theme = new JMenu("Theme");					
 		JMenu help = new JMenu("Aide");	
+		JMenuItem newf = new JMenuItem("Nouvelle partie");
+		JMenuItem load = new JMenuItem("Reprendre");
+		JMenuItem quit = new JMenuItem("Sauvegarder");
 		JMenuItem soloJ = new JMenuItem("1 personnage");
 		JMenuItem deuxJ = new JMenuItem("2 personnages");
 		JMenuItem aide = new JMenuItem("Aide");
@@ -78,7 +81,9 @@ public class DeuxJCmplx
 		help.add(aide);
 		help.add(credit);
 		frame.add(menu);
-
+		file.add(newf);
+		file.add(load);
+		file.add(quit);
 		mode.add(soloJ);
 		mode.add(deuxJ);
 		theme.add(coldefaut);
@@ -132,6 +137,8 @@ public class DeuxJCmplx
 
 		JComboBox connecteur = new JComboBox <>(connect);
 
+
+
 		connecteur.addActionListener(new ActionListener() { 
  // @Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +174,7 @@ public class DeuxJCmplx
 					question.add(pilosites);
 					question.add(cheveux);
 				}
-//ne marche pas bien à revoir 
+
 				if(connecteur.getSelectedItem() == "&&") { 
 
 					JComboBox<Nationalite> nationalites = new JComboBox<> (Nationalite.values());
@@ -235,6 +242,9 @@ public class DeuxJCmplx
 					question.add(couleurs);
 					question.add(pilosites);
 					question.add(cheveux); }   
+
+					frame.setVisible(true);
+
 
 				} });
 
@@ -334,9 +344,89 @@ bleu.addActionListener(e ->{
 
 
 
-		//pour charger une partie ou lancer une nouvelle(pas encore fonctionnel)
+		//fonctions menus
 		//new game
 
+
+newf.addActionListener(e ->{
+	frame.dispose();
+	accueil.dispose();
+	try {
+		Process processus = Runtime.getRuntime().exec("rm -f sauvegarde.json");
+		Process processus2 = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJCmplx");
+
+		StringBuilder resultat = new StringBuilder(); 
+
+		BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+		String ligne;
+
+		while ((ligne = lecteur.readLine()) != null) {
+			resultat.append(ligne + "\n"); 
+		}
+
+		int valeurDeSortie = processus.waitFor();
+		int valeurDeSortie2 = processus.waitFor();
+		if (valeurDeSortie == 0 && valeurDeSortie2==0) {
+			System.out.println("Success!");
+			System.out.println(resultat); 
+			System.exit(0);
+		} else {
+			System.out.println("Quelque chose de pas normal s'est produit :( "); 
+		}
+
+	} catch (IOException t) {
+		t.printStackTrace();
+	} catch (InterruptedException t) {
+		t.printStackTrace();
+	}
+	;});
+
+
+load.addActionListener(e->{
+	frame.dispose();
+	accueil.dispose();
+	try {
+		Process processus = Runtime.getRuntime().exec("java -cp .:gson-2.8.2.jar DeuxJCmplx"); 
+
+		StringBuilder resultat = new StringBuilder(); 
+
+		BufferedReader lecteur = new BufferedReader(new InputStreamReader(processus.getInputStream())); 
+
+		String ligne;
+
+		while ((ligne = lecteur.readLine()) != null) {
+			resultat.append(ligne + "\n"); 
+		}
+
+		int valeurDeSortie = processus.waitFor();
+		if (valeurDeSortie == 0) {
+			System.out.println("Success!");
+			System.out.println(resultat); 
+			System.exit(0);
+		} else {
+			System.out.println("Quelquechose de pas normal s'est produit :( "); 
+		}
+
+	} catch (IOException t) {
+		t.printStackTrace();
+	} catch (InterruptedException t) {
+		t.printStackTrace();
+	}
+	;});
+
+quit.addActionListener(e -> { 
+	try{
+		Jeu.sauvegarder();
+	}
+	catch (IOException ex){
+		System.err.println("echec de sauvegarde");
+	}
+	finally {
+		frame.setVisible(false); 
+		accueil.setVisible(true);
+	}
+});
 
 
 soloJ.addActionListener(e ->{
