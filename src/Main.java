@@ -127,7 +127,7 @@ public class Main
 		//	@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if(labelPersos.getSelectedItem()==personnages)
+				if(labelPersos.getSelectedItem()==persoChoisi)
 				{   
 					System.out.println("oui");
 					choisissez.setVisible(false);
