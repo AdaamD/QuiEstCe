@@ -78,23 +78,20 @@ public class Generateur{
     public static void main (String[]args){
         exporter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                Stream<List<JTextField>> fluxPersos = persosSaisis.stream(); 
-                Stream<JTextField> fluxNoms = persosSaisis.stream().map(rangee -> rangee.get(0));
-                Stream<JTextField> fluxImages = persosSaisis.stream().map(rangee -> rangee.get(1)); 
-                boolean uniciteNoms = uniciteValeur(fluxNoms,Color.RED); 
-                uniciteValeur(fluxImages,Color.ORANGE); 
+                boolean uniciteNoms = uniciteValeur(persosSaisis.stream().map(rangee -> rangee.get(0)),Color.RED); 
+                uniciteValeur(persosSaisis.stream().map(rangee -> rangee.get(1)),Color.ORANGE); 
                 System.out.println(uniciteNoms); 
                 JsonArray tableauJson = new JsonArray();
                 if (uniciteNoms){
-                    IntStream colonnesEtiquettees = IntStream.range(0,NBATTRMAX)
-                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()); 
+        
 
                     IntStream.range(0,NBPERSOMAX)
                     .filter(i -> ! trim (persosSaisis.get(i).get(0).getText()).isEmpty()).mapToObj(
                             ligne -> {JsonObject perso = new JsonObject();
                                     perso.addProperty("nom", persosSaisis.get(ligne).get(0).getText());
                                     perso.addProperty("image",persosSaisis.get(ligne).get(1).getText()); 
-                                    colonnesEtiquettees.forEach(colonne -> 
+                                    IntStream.range(0,NBATTRMAX)
+                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()).forEach(colonne -> 
                                         perso.addProperty (index.get(colonne + 2).getText(),persosSaisis.get(ligne).get(colonne).getText()));
                                 return gson.toJson(perso);
 
