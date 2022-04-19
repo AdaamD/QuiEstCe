@@ -90,9 +90,9 @@ public class Generateur{
                             ligne -> {JsonObject perso = new JsonObject();
                                     perso.addProperty("nom", persosSaisis.get(ligne).get(0).getText());
                                     perso.addProperty("image",persosSaisis.get(ligne).get(1).getText()); 
-                                    IntStream.range(0,NBATTRMAX)
-                                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()).forEach(colonne -> 
-                                        perso.addProperty (index.get(colonne).getText(),persosSaisis.get(ligne).get(colonne).getText()));
+                                    IntStream.range(2,NBATTRMAX)
+                                        .filter(colonne -> ! trim (index.get(colonne - 2).getText()).isEmpty()).forEach(colonne -> 
+                                        perso.addProperty (index.get(colonne - 2).getText(),persosSaisis.get(ligne).get(colonne).getText()));
                                 return perso;
 
                     }
