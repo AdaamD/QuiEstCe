@@ -91,9 +91,9 @@ public class Generateur{
                                     perso.addProperty("nom", persosSaisis.get(ligne).get(0).getText());
                                     perso.addProperty("image",persosSaisis.get(ligne).get(1).getText()); 
                                     IntStream.range(0,NBATTRMAX)
-                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()).forEach(colonne -> 
-                                        perso.addProperty (index.get(colonne + 2).getText(),persosSaisis.get(ligne).get(colonne).getText()));
-                                return gson.toJson(perso);
+                                        .filter(colonne -> ! trim (index.get(colonne).getText()).isEmpty()).forEach(colonne -> 
+                                        perso.addProperty (index.get(colonne).getText(),persosSaisis.get(ligne).get(colonne).getText()));
+                                return perso;
 
                     }
                     ).forEach(obj -> tableauJson.add(obj)); 
