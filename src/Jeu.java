@@ -14,7 +14,8 @@ import java.util.stream.StreamSupport;
 //import java.util.ArrayList; 
 public class Jeu {
     private static Random random = new Random();
-    private static Jeu partie; 
+    private static Jeu partie; //unique instance de la classe Jeu dans 
+    //tout le programme
     private static Attribut[] attributs; 
     public String fichierSauvegarde() {return "sauvegarde.json";}
     
@@ -28,16 +29,24 @@ public class Jeu {
         return gson.toJson(partie);
     }
     public static Attribut[] attributs() {
-        if (partie.personnages == null)
+        if (partie.personnages == null)//en pratique on appelle attributs()
+            //après getPersonnages()
             return null ;
 
         if (attributs != null) 
             return attributs; 
-        attributs = personnageChoisi().clesAttributs().stream().filter(cle -> ! (cle.equals("nom") || cle.equals("image"))).map(
-                    s -> new Attribut (s,
+        attributs = personnageChoisi().clesAttributs().stream()
+            .filter
+                (cle -> ! (cle.equals
+                ("nom") || cle.equals("image")))
+            .map(
+                s -> new Attribut (s,
                         Arrays.stream(partie.personnages)
-                        .map(p -> p.valeurAttribut(s)).collect(Collectors.toSet())
-            )).toArray(Attribut[]::new); 
+                        .map(p -> p.valeurAttribut(s))
+                        //on ne collecte chaque valeur d'attribut qu'une fois
+                        .collect(Collectors.toSet())
+                        ))
+            .toArray(Attribut[]::new); 
         
         return attributs;
 
@@ -52,9 +61,12 @@ public class Jeu {
     public static void nouvellePartie(boolean custom) {
         final Gson gson = new GsonBuilder().create();
         try { 
-            String json = OuvrirFichier.lire(custom ? "persosCustom.json":"../personnages.json");
-            JsonObject[] personnages = gson.fromJson(json,JsonObject[].class);
-            partie.personnages = Arrays.stream(personnages).map(p -> new Personnage(p)).toArray(Personnage[]::new);
+            String json = OuvrirFichier.lire
+                (custom ? "persosCustom.json":"../personnages.json");
+            JsonObject[] personnages = gson.fromJson
+                (json,JsonObject[].class);
+            partie.personnages = Arrays.stream(personnages).map(
+                p -> new Personnage(p)).toArray(Personnage[]::new);
             }
             catch (IOException e){
                 System.err.println("erreur dans ouvertures du fichier personnages.json"); 
@@ -82,10 +94,15 @@ public class Jeu {
         
         try {
             String json = OuvrirFichier.lire("sauvegarde.json");
-            JsonArray tableauPerso = parser.parse(json).getAsJsonArray();
+            JsonObject partieJson = parser.parse(json).getAsJsonObject(); 
+            JsonArray tableauPerso = partieJson
+               .get("personnages").getAsJsonArray();
             partie.personnages = new Personnage[tableauPerso.size()];
             IntStream.range(0, partie.personnages.length).forEach
-            (i ->partie.personnages[i] = new Personnage(tableauPerso.get(i).getAsJsonObject())); 
+                (i ->partie.personnages[i] = new Personnage(tableauPerso.get(i)
+                .getAsJsonObject().get("attributs").getAsJsonObject())); 
+            partie.indicePersoChoisi = partieJson.get("indicePersoChoisi")
+                .getAsInt();
 
         }
         catch (IOException e1) {
